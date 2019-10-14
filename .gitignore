@@ -1,6 +1,6 @@
-/*.iml
 /local.properties
 /.gradle
 /.idea
 /app/build
-/app/*.iml
+*.iml
+/app/release
