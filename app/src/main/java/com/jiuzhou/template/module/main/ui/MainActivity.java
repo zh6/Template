@@ -15,7 +15,6 @@ import com.jiuzhou.template.module.main.fragment.HomeFragment;
 import com.jiuzhou.template.module.main.fragment.MineFragment;
 import com.jiuzhou.template.module.main.fragment.OrderFragment;
 import com.jiuzhou.template.module.main.fragment.StatisticsFragment;
-import com.jiuzhou.template.utils.DoubleClickExit;
 import com.jiuzhou.template.utils.RxBus;
 import com.jiuzhou.template.utils.ToastUtils;
 

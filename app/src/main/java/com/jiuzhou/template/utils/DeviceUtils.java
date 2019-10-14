@@ -140,7 +140,7 @@ public class DeviceUtils {
         request.allowScanningByMediaScanner();
         request.setMimeType("application/vnd.android.package-archive");
         // 实例化DownloadManager 对象
-        DownloadManager downloadManager = (DownloadManager) MyApplication.getContext().getSystemService(Context.DOWNLOAD_SERVICE);
+        DownloadManager downloadManager = (DownloadManager) MyApplication.getAppContext().getSystemService(Context.DOWNLOAD_SERVICE);
         final long refrence = downloadManager.enqueue(request);
         return refrence;
     }

@@ -60,7 +60,7 @@ public class TokenInterceptor implements Interceptor {
         }
         HttpUrl.Builder builder = oldRequest.url()
                 .newBuilder()
-                .setEncodedQueryParameter("token", SharedPreferenceUtils.getToken(MyApplication.getContext()));
+                .setEncodedQueryParameter("token", SharedPreferenceUtils.getToken(MyApplication.getAppContext()));
 
         Request newRequest = oldRequest.newBuilder()
                 .method(oldRequest.method(), oldRequest.body())
@@ -77,11 +77,11 @@ public class TokenInterceptor implements Interceptor {
      */
     private void getNewToken() throws IOException {
         // 通过一个特定的接口获取新的token，此处要用到同步的retrofit请求
-        Observable<Object> observable = RetrofitService.getInstance().Login(SharedPreferenceUtils.getUserInfo(MyApplication.getContext()).get(0), SharedPreferenceUtils.getUserInfo(MyApplication.getContext()).get(1));
+        Observable<Object> observable = RetrofitService.getInstance().Login(SharedPreferenceUtils.getUserInfo(MyApplication.getAppContext()).get(0), SharedPreferenceUtils.getUserInfo(MyApplication.getAppContext()).get(1));
         observable.doOnNext(res -> {
             JSONObject obj = JSON.parseObject(JSON.toJSONString(res));
             if (obj.getIntValue("state") == 0) {  //表示登录成功
-                SharedPreferenceUtils.saveToken(MyApplication.getContext(), obj.getString("token"));
+                SharedPreferenceUtils.saveToken(MyApplication.getAppContext(), obj.getString("token"));
             }
         }).subscribe();
     }

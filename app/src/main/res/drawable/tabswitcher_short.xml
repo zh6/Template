@@ -1,6 +1,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="#fff4f4f4" />
+    <solid android:color="#f4f4f4" />
     <corners android:radius="8dp" />
     <!-- 设置边框宽度 -->
     <stroke

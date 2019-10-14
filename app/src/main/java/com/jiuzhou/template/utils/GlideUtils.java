@@ -20,7 +20,7 @@ public class GlideUtils {
     public static void loadImage(Context context, String url, ImageView imageView) {
         Glide.with(context)
                 .load(url)
-                .error(R.drawable.imglogo)
+                .error(R.drawable.ic_launcher_background)
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(imageView);
     }
@@ -34,7 +34,7 @@ public class GlideUtils {
     public static void loadCircleImage(Context context, String url, ImageView imageView) {
         Glide.with(context)
                 .load(url)
-                .error(R.drawable.imglogo)
+                .error(R.drawable.ic_launcher_background)
                 .transform(new GlideCircleTransform(context))
                 .into(imageView);
     }

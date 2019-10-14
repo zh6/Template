@@ -6,7 +6,6 @@ import android.content.Intent;
 import com.jiuzhou.template.R;
 import com.jiuzhou.template.base.BaseActivity;
 import com.jiuzhou.template.common.MsgEvent;
-import com.jiuzhou.template.utils.DoubleClickExit;
 import com.jiuzhou.template.utils.RxBus;
 import com.jiuzhou.template.utils.ToastUtils;
 

@@ -29,16 +29,15 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation 'junit:junit:4.12'
     /*Google library*/
-    //noinspection GradleCompatible
     implementation "com.android.support:appcompat-v7:${versions.androidSupportVersion}"
     implementation "com.android.support:design:${versions.androidSupportVersion}"
     implementation "com.android.support:support-v13:${versions.androidSupportVersion}"
-    /*squareup library*/
+    /*retrofit2 library*/
     implementation "com.squareup.retrofit2:retrofit:${versions.retrofitVersion}"
     implementation "com.squareup.retrofit2:converter-gson:${versions.retrofitVersion}"
     implementation "com.squareup.retrofit2:adapter-rxjava2:${versions.retrofitVersion}"
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
-    /*rx library*/
+    /*rxjava2 library*/
     implementation "io.reactivex.rxjava2:rxandroid:${versions.rxandroidVersion}"
     implementation "io.reactivex.rxjava2:rxjava:${versions.rxjavaVersion}"
     /*other library*/
@@ -48,7 +47,6 @@ dependencies {
     annotationProcessor "com.jakewharton:butterknife-compiler:${versions.butterknifeVersion}"
     //日志
     implementation "com.orhanobut:logger:${versions.loggerVersion}"
-    //网络请求
     implementation "me.jessyan:retrofit-url-manager:${versions.retrofitManagerVersion}"
     // 使用Android生命周期作为提供者
     implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.1'
@@ -74,17 +72,17 @@ dependencies {
     //权限
     implementation "com.github.hotchemi:permissionsdispatcher:3.1.0"
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:3.1.0"
-    //json解析
+    //fastjson
     implementation "com.alibaba:fastjson:1.1.54.android"
-    //万能Popup
+    //BasePopup
     implementation 'com.github.razerdp:BasePopup:2.2.1'
     //BasePopup lifecycle支持库（如自动适配Activity/Fragment生命期dismiss/回收等）
     implementation 'com.github.razerdp:BasePopup-compat-lifecycle:2.2.1'
-    /** 万能baseadapter */
+    /** baseadapter */
     implementation 'com.zhy:base-rvadapter:3.0.3'
-    //内存泄漏问题
+    //内存泄漏
     debugApi 'com.squareup.leakcanary:leakcanary-android:1.6.2'
     releaseApi 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
     //图表
-    implementation 'com.github.lecho:hellocharts-android:v1.5.8'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

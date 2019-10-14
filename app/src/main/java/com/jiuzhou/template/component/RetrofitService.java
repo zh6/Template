@@ -70,7 +70,7 @@ public class RetrofitService {
         if (mAPI == null) {
             mAPI = new Retrofit.Builder()
                     .client(mOkHttpClient)
-                    .baseUrl(SharedPreferenceUtils.getIp(MyApplication.getContext()))
+                    .baseUrl(SharedPreferenceUtils.getIp(MyApplication.getAppContext()))
                     .addConverterFactory(LenientGsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build().create(AllAPI.class);
@@ -94,7 +94,7 @@ public class RetrofitService {
     private static void initOkHttpClient() {
         if (mOkHttpClient == null) {
             // 因为BaseUrl不同所以这里Retrofit不为静态，但是OkHttpClient配置是一样的,静态创建一次即可
-            File cacheFile = new File(MyApplication.getContext().getCacheDir(),
+            File cacheFile = new File(MyApplication.getAppContext().getCacheDir(),
                     "HttpCache"); // 指定缓存路径
             Cache cache = new Cache(cacheFile, 1024 * 1024 * 100); // 指定缓存大小100Mb
             // 云端响应头拦截器，用来配置缓存策略
@@ -102,12 +102,12 @@ public class RetrofitService {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
                     Request request = chain.request();
-                    if (!NetUtils.isConnected(MyApplication.getContext())) {
+                    if (!NetUtils.isConnected(MyApplication.getAppContext())) {
                         request = request.newBuilder().cacheControl(CacheControl.FORCE_CACHE).build();
                         Logger.e("no network");
                     }
                     Response originalResponse = chain.proceed(request);
-                    if (NetUtils.isConnected(MyApplication.getContext())) {
+                    if (NetUtils.isConnected(MyApplication.getAppContext())) {
                         //有网的时候读接口上的@Headers里的配置，你可以在这里进行统一的设置
                         String cacheControl = request.cacheControl().toString();
                         return originalResponse.newBuilder()
@@ -144,7 +144,7 @@ public class RetrofitService {
      */
     @NonNull
     public static String getCacheControl() {
-        return NetUtils.isConnected(MyApplication.getContext()) ? CACHE_CONTROL_NETWORK : CACHE_CONTROL_CACHE;
+        return NetUtils.isConnected(MyApplication.getAppContext()) ? CACHE_CONTROL_NETWORK : CACHE_CONTROL_CACHE;
     }
     /***********************************************************************************************************************/
     /**********************************************封装所有请求接口*********************************************************/

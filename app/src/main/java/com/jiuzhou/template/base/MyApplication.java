@@ -1,5 +1,6 @@
 package com.jiuzhou.template.base;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
@@ -11,6 +12,9 @@ import com.jiuzhou.template.utils.LogUtils;
 import com.jiuzhou.template.utils.ToastUtils;
 import com.squareup.leakcanary.LeakCanary;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.plugins.RxJavaPlugins;
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
 
@@ -18,11 +22,14 @@ import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
  * 自定义的Application，做一些初始化配置
  */
 public class MyApplication extends Application {
-    private static MyApplication instance;
+    private List<Activity> oList;//用于存放所有启动的Activity的集合
     public static String cacheDir = "";
+    private static Context context;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        oList = new ArrayList<Activity>();
         //初始化日志工具
         Logger.addLogAdapter(new AndroidLogAdapter() {
             @Override
@@ -30,7 +37,6 @@ public class MyApplication extends Application {
                 return BuildConfig.DEBUG;
             }
         });
-        instance = this;
         ToastUtils.register(this);
         //LeakCanary检测OOM
         LeakCanary.install(this);
@@ -38,9 +44,7 @@ public class MyApplication extends Application {
         RetrofitUrlManager.getInstance().startAdvancedModel(SharedPreferenceUtils.getIp(this));
         //初始化日志输出工具
         //CrashHandler.init(new CrashHandler(getApplicationContext()));
-        /**
-         * 如果存在SD卡则将缓存写入SD卡,否则写入手机内存
-         */
+        //如果存在SD卡则将缓存写入SD卡,否则写入手机内存
         if (getApplicationContext().getExternalCacheDir() != null && isExistSDCard()) {
             cacheDir = getApplicationContext().getExternalCacheDir().toString();
 
@@ -57,16 +61,17 @@ public class MyApplication extends Application {
         });
     }
 
+    //获取上下文
+    public static Context getAppContext() {
+        return context.getApplicationContext();
+    }
+
     private boolean isExistSDCard() {
         if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
             return true;
         } else {
             return false;
         }
-    }
-    // 获取ApplicationContext
-    public static Context getContext() {
-        return instance;
     }
     public static String getAppCacheDir() {
         return cacheDir;

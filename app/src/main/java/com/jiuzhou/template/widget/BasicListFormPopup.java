@@ -120,7 +120,7 @@ public class BasicListFormPopup extends BasePopupWindow {
 
     @Override
     public View onCreateContentView() {
-        return createPopupById(R.layout.popup_basic);
+        return createPopupById(R.layout.view_popup);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

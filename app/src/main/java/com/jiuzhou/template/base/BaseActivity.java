@@ -19,6 +19,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     private static String TAG = BaseActivity.class.getSimpleName();
     private long lastClickTime;
     public LoadingView loadingView;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +109,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
             loadingView.dismiss();
         }
     }
+
     /**
      * 判断事件出发时间间隔是否超过预定值
      *
