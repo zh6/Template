@@ -8,11 +8,11 @@ import android.widget.TextView;
 
 import com.zh.template.R;
 import com.zh.template.base.BaseActivity;
-import com.zh.template.component.RetrofitService;
-import com.zh.template.utils.AlertDialogUtils;
+import com.zh.template.network.RetrofitService;
 import com.zh.template.utils.RxUtils;
 import com.zh.template.utils.SharedPreferenceUtils;
 import com.zh.template.utils.ToastUtils;
+import com.zh.template.widget.CustomDialog;
 
 import java.util.regex.Pattern;
 
@@ -41,7 +41,7 @@ public class SettingsActivity extends BaseActivity {
 
     @OnClick({R.id.back, R.id.logout, R.id.rl_pwd, R.id.rl_version, R.id.rl_personal, R.id.rl_store})
     public void OnClick(View view) {
-        AlertDialogUtils dialogUtil = AlertDialogUtils.getInstance();
+        CustomDialog dialogUtil = CustomDialog.getInstance();
         switch (view.getId()) {
             case R.id.back:
                 onBackPressed();
@@ -56,9 +56,9 @@ public class SettingsActivity extends BaseActivity {
             case R.id.logout:
                 dialogUtil.showConfirmDialog(this, "确定要退出当前登录账号吗？");
                 //按钮点击监听
-                dialogUtil.setOnButtonClickListener(new AlertDialogUtils.OnButtonClickListener() {
+                dialogUtil.setOnButtonClickListener(new CustomDialog.OnButtonClickListener() {
                     @Override
-                    public void onPositiveButtonClick(AlertDialog dialog) {
+                    public void onConfirmButtonClick(Dialog dialog) {
                         dialog.dismiss();
                         SharedPreferenceUtils.saveUserInfo(SettingsActivity.this, SharedPreferenceUtils.getUserInfo(SettingsActivity.this).get(0), "");
                         Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
@@ -68,14 +68,14 @@ public class SettingsActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNegativeButtonClick(AlertDialog dialog) {
+                    public void onCancelButtonClick(Dialog dialog) {
                         dialog.dismiss();
                     }
                 });
                 break;
 //            case R.id.rl_username:
 //                dialogUtil.showEditTextDialog(this, "请输入用户名");
-//                dialogUtil.setOnEditTextClickListener(new AlertDialogUtils.OnEditTextClickListener() {
+//                dialogUtil.setOnEditTextClickListener(new CustomDialog.OnEditTextClickListener() {
 //                    @Override
 //                    public void onPositiveButtonClick(Dialog dialog, String msg) {
 //                        if ("".equals(msg)) {
@@ -101,7 +101,7 @@ public class SettingsActivity extends BaseActivity {
 //                break;
 //            case R.id.rl_phone:
 //                dialogUtil.showEditTextDialog(this, "请输入手机号码");
-//                dialogUtil.setOnEditTextClickListener(new AlertDialogUtils.OnEditTextClickListener() {
+//                dialogUtil.setOnEditTextClickListener(new CustomDialog.OnEditTextClickListener() {
 //                    @Override
 //                    public void onPositiveButtonClick(Dialog dialog, String msg) {
 //                        if(!Pattern.matches("^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\\\\d{8}$",msg)){
@@ -123,9 +123,9 @@ public class SettingsActivity extends BaseActivity {
 //                break;
             case R.id.rl_pwd:
                 dialogUtil.showEditTextDialog(this, "请输入密码");
-                dialogUtil.setOnEditTextClickListener(new AlertDialogUtils.OnEditTextClickListener() {
+                dialogUtil.setOnEditTextClickListener(new CustomDialog.OnEditTextClickListener() {
                     @Override
-                    public void onPositiveButtonClick(Dialog dialog, String msg) {
+                    public void onConfirmButtonClick(Dialog dialog, String msg) {
                         if (!Pattern.matches("^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$", msg)) {
                             ToastUtils.showShort("密码由6-16位数字和字母的组合！");
                             return;
@@ -142,13 +142,14 @@ public class SettingsActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNegativeButtonClick(Dialog dialog) {
-
+                    public void onCancelButtonClick(Dialog dialog) {
+                        dialog.dismiss();
                     }
                 });
                 break;
         }
     }
+
     Observable<String> updatePwd(String password) {
         return RetrofitService.getInstance().updatePwd("", password).compose(RxUtils.activityLifecycle(this));
     }

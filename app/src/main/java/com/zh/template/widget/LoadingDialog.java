@@ -8,15 +8,15 @@ import android.widget.TextView;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.zh.template.R;
 
-public class LoadingView extends Dialog {
+public class LoadingDialog extends Dialog {
     private AVLoadingIndicatorView avi;
     private TextView loadingText;
     Activity mParentActivity;
 
-    public LoadingView(Context context) {
+    public LoadingDialog(Context context) {
         super(context, R.style.Loading);
         mParentActivity = (Activity) context;
-        setContentView(R.layout.view_loading_dialog);
+        setContentView(R.layout.dialog_loading);
         avi = (AVLoadingIndicatorView) findViewById(R.id.AVLoadingIndicatorView);
         loadingText = (TextView) findViewById(R.id.id_tv_loading_dialog_text);
     }

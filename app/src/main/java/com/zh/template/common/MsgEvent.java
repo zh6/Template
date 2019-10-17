@@ -1,5 +1,8 @@
 package com.zh.template.common;
 
+/**
+ * RxBus信息
+ */
 public class MsgEvent {
     private String msg;
 

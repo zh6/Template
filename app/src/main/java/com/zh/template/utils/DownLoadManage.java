@@ -19,11 +19,9 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 public class DownLoadManage {
-
     private static final int DOWNLOAD_ING = 1;      //下载中
     private static final int DOWNLOAD_FAILED = 2;   //下载失败
     private static final int DOWNLOAD_FINISH = 3;   //下载结束
-
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -46,8 +44,6 @@ public class DownLoadManage {
             }
         }
     };
-
-
     private Call call;
     private String mSaveDir;
     private int mDownloadProgress;

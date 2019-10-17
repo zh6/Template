@@ -1,4 +1,4 @@
-package com.zh.template.component;
+package com.zh.template.network;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;

@@ -21,22 +21,19 @@ package com.zh.template.utils;
 
 import android.content.Context;
 import android.widget.Toast;
+
 /**
  * toast工具类，避免重复提醒
  */
 public class ToastUtils {
-
     public static Context sContext;
-
 
     private ToastUtils() {
     }
 
-
     public static void register(Context context) {
         sContext = context.getApplicationContext();
     }
-
 
     private static void check() {
         if (sContext == null) {
@@ -71,7 +68,6 @@ public class ToastUtils {
         Toast.makeText(sContext, message, Toast.LENGTH_LONG).show();
     }
 
-
     public static void showLongX2(String message) {
         showLong(message);
         showLong(message);
@@ -81,19 +77,5 @@ public class ToastUtils {
     public static void showLongX2(int resId) {
         showLong(resId);
         showLong(resId);
-    }
-
-
-    public static void showLongX3(int resId) {
-        showLong(resId);
-        showLong(resId);
-        showLong(resId);
-    }
-
-
-    public static void showLongX3(String message) {
-        showLong(message);
-        showLong(message);
-        showLong(message);
     }
 }

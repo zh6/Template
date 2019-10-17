@@ -7,18 +7,16 @@ import android.support.annotation.Nullable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-
-import com.zh.template.widget.LoadingView;
+import com.zh.template.widget.LoadingDialog;
 import com.zh.template.utils.InputUtils;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
-
 import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends RxAppCompatActivity {
     private InputMethodManager manager;  //系统输入法相关
     private static String TAG = BaseActivity.class.getSimpleName();
     private long lastClickTime;
-    public LoadingView loadingView;
+    public LoadingDialog loadingView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,7 +24,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         setContentView(layoutId());
         manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         ButterKnife.bind(this);
-        loadingView = new LoadingView(this);
+        loadingView = new LoadingDialog(this);
         initView();
         initData();
     }
@@ -93,7 +91,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
      *
      * @param loadingView
      */
-    public void showDialog(LoadingView loadingView) {
+    public void showDialog(LoadingDialog loadingView) {
         if (loadingView != null && !loadingView.isShowing()) {
             loadingView.show();
         }
@@ -104,12 +102,11 @@ public abstract class BaseActivity extends RxAppCompatActivity {
      *
      * @param loadingView
      */
-    public void closeDialog(LoadingView loadingView) {
+    public void closeDialog(LoadingDialog loadingView) {
         if (loadingView != null && loadingView.isShowing()) {
             loadingView.dismiss();
         }
     }
-
     /**
      * 判断事件出发时间间隔是否超过预定值
      *

@@ -37,7 +37,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="供应商端"
+                            android:text="Template"
                             android:textColor="#66BE30"
                             android:textSize="14sp" />
 
@@ -64,11 +64,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="“小源送菜”是面向食材配送商的一体化管理软件和
-网络下单平台，助力传统企业在食配行业实现电子化
-办公和互联网转型。司机端主要提供给配送员使用，
-提供配送任务实时接收、跟踪处理，配送路线优化等
-功能，是一款非常高效的移动助理。"
+                    android:text="Template快速开发模板"
                     android:textColor="#90211E1D"
                     android:textSize="14sp" />
 
@@ -94,7 +90,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="35dp"
             android:gravity="center"
-            android:text="版权所有成都九洲电子信息系统股份有限公司"
+            android:text="版权所有"
             android:textColor="#50211E1D"
             android:textSize="10sp" />
     </RelativeLayout>

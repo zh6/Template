@@ -4,7 +4,7 @@
     android:layout_height="500dp"
     android:background="@color/white"
     android:orientation="vertical">
-    <include layout="@layout/view_popup_title"/>
+    <include layout="@layout/popup_title"/>
     <View style="@style/LineStyle" />
 
     <android.support.v7.widget.RecyclerView

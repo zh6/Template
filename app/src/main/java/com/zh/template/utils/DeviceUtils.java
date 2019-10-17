@@ -18,11 +18,29 @@ import com.zh.template.base.MyApplication;
 import java.io.File;
 
 /**
- * <Pre>
- * 获取设备信息的工具类
- * </Pre>
- * Create by 2016/3/21 11:41
- */
+ *  *APP更新
+ *  *@author zhaohui
+ *  *@time 2019/10/16 15:11
+ *  * ----------Dragon be here!----------/
+ *  * 　　　┏┓　　 ┏┓
+ *  * 　　┏┛┻━━━┛┻┓━━━
+ *  * 　　┃　　　　　 ┃
+ *  * 　　┃　　　━　  ┃
+ *  * 　　┃　┳┛　┗┳
+ *  * 　　┃　　　　　 ┃
+ *  * 　　┃　　　┻　  ┃
+ *  * 　　┃　　　　   ┃
+ *  * 　　┗━┓　　　┏━┛Code is far away from bug with the animal protecting
+ *  * 　　　　┃　　　┃    神兽保佑,代码无bug
+ *  * 　　　　┃　　　┃
+ *  * 　　　　┃　　　┗━━━┓
+ *  * 　　　　┃　　　　　　┣┓
+ *  * 　　　　┃　　　　　　　┏┛
+ *  * 　　　　┗┓┓┏━┳┓┏┛━━━━━
+ *  * 　　　　　┃┫┫　┃┫┫
+ *  * 　　　　　┗┻┛　┗┻┛
+ *  * ━━━━━━━━━━━神兽出没━━━━━━━━━━━━━━
+ *  */
 public class DeviceUtils {
     /**
      * 获取当前应用的版本号
@@ -50,8 +68,8 @@ public class DeviceUtils {
     public static void download(Context context, boolean isForce, String url) {
         String savePath = Environment.getExternalStorageDirectory() + "/Download/yshfresh_ps.apk";// 储存下载文件的目录
         File file = new File(savePath);
-        final DownLoadManage downLoadManage = new DownLoadManage();
-        final ProgressDialog pDialog = new ProgressDialog(context);
+        DownLoadManage downLoadManage = new DownLoadManage();
+        ProgressDialog pDialog = new ProgressDialog(context);
         // 设置进度条风格，风格为长形
         pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         pDialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
@@ -119,49 +137,6 @@ public class DeviceUtils {
         } else {
             intent.setDataAndType(Uri.fromFile(apkFile), "application/vnd.android.package-archive");
         }
-        context.startActivity(intent);
-    }
-
-    /**
-     * 更新下载apk
-     * @param context 上下文对象
-     * @param title   程序的名字
-     * @param url     下载的url地址
-     */
-    public static long downLoadApk(Context context, String title, String url) {
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
-        request.setDestinationInExternalPublicDir("download", "updata.apk");
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        // 设置 Notification 信息
-        request.setTitle(title);
-        request.setDescription("下载完成后请点击打开");
-        request.setVisibleInDownloadsUi(true);
-        request.allowScanningByMediaScanner();
-        request.setMimeType("application/vnd.android.package-archive");
-        // 实例化DownloadManager 对象
-        DownloadManager downloadManager = (DownloadManager) MyApplication.getAppContext().getSystemService(Context.DOWNLOAD_SERVICE);
-        final long refrence = downloadManager.enqueue(request);
-        return refrence;
-    }
-
-    /**
-     * 安装apk
-     *
-     * @param fileSavePath
-     */
-    public static void openAPK(Context context, String fileSavePath) {
-        File file = new File(Uri.parse(fileSavePath).getPath());
-        String filePath = file.getAbsolutePath();
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        Uri data = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//判断版本大于等于7.0
-            data = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", new File(filePath));
-            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);// 给目标应用一个临时授权
-        } else {
-            data = Uri.fromFile(file);
-        }
-        intent.setDataAndType(data, "application/vnd.android.package-archive");
         context.startActivity(intent);
     }
 }

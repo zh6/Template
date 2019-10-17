@@ -1,4 +1,4 @@
-package com.zh.template.component;
+package com.zh.template.network;
 import com.zh.template.module.main.entity.AddressEntity;
 
 import java.util.List;

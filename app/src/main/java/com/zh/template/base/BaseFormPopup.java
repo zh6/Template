@@ -1,4 +1,4 @@
-package com.zh.template.widget;
+package com.zh.template.base;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.zh.template.R;
 import com.zh.template.common.ListItemDecoration;
-import com.zh.template.module.main.entity.BasicPopEntity;
+import com.zh.template.module.main.entity.BasePopEntity;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -45,13 +45,13 @@ import razerdp.basepopup.BasePopupWindow;
  * * 　　　　　┗┻┛　┗┻┛
  * * ━━━━━━━━━━━神兽出没━━━━━━━━━━━━━━
  */
-public class BasicListFormPopup extends BasePopupWindow {
+public class BaseFormPopup extends BasePopupWindow {
     private Activity context;
-    private CommonAdapter<BasicPopEntity> adapter;
-    private List<BasicPopEntity> list;
+    private CommonAdapter<BasePopEntity> adapter;
+    private List<BasePopEntity> list;
     private OnItemClickListener mOnItemClickListener;//条目点击监听
     private int thisPosition = 0;
-    public BasicListFormPopup(Activity context, List<BasicPopEntity> list) {
+    public BaseFormPopup(Activity context, List<BasePopEntity> list) {
         super(context);
         //设置显示底部
         setPopupGravity(Gravity.BOTTOM);
@@ -62,7 +62,7 @@ public class BasicListFormPopup extends BasePopupWindow {
         initView();
     }
     //刷新数据
-    public void refresh(List<BasicPopEntity> newList) {
+    public void refresh(List<BasePopEntity> newList) {
         if (list != null) {
             list.clear();
         }
@@ -78,10 +78,10 @@ public class BasicListFormPopup extends BasePopupWindow {
         //设置分割线
         mRecyclerView.addItemDecoration(new ListItemDecoration(context, LinearLayoutManager.VERTICAL));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new CommonAdapter<BasicPopEntity>(context, R.layout.item_basic_text, list) {
+        adapter = new CommonAdapter<BasePopEntity>(context, R.layout.item_base_text, list) {
             @Override
-            protected void convert(ViewHolder holder, BasicPopEntity basicPopEntity, int position) {
-                holder.setText(R.id.name, basicPopEntity.name);
+            protected void convert(ViewHolder holder, BasePopEntity basePopEntity, int position) {
+                holder.setText(R.id.name, basePopEntity.name);
                 if (position == thisPosition) {
                     holder.setTextColor(R.id.name,Color.parseColor("#23A389"));
                 } else {
@@ -120,7 +120,7 @@ public class BasicListFormPopup extends BasePopupWindow {
 
     @Override
     public View onCreateContentView() {
-        return createPopupById(R.layout.view_popup);
+        return createPopupById(R.layout.popup_base);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -129,6 +129,6 @@ public class BasicListFormPopup extends BasePopupWindow {
 
     //点击条目接口
     public interface OnItemClickListener {
-        void onItemClick(View view, BasicPopEntity entity);
+        void onItemClick(View view, BasePopEntity entity);
     }
 }

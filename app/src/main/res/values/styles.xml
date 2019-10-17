@@ -10,6 +10,7 @@
         <item name="windowActionBar">false</item>
         <item name="android:windowBackground">@color/white</item>
     </style>
+
     <style name="Loading" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
@@ -25,27 +26,7 @@
         <!-- 设置点击空白不消失 -->
         <item name="android:windowCloseOnTouchOutside">false</item>
     </style>
-    <!-- EditText Style(单价和重量) -->
-    <style name="EditText_Price_or_Weight" parent="">
-        <item name="android:background">@drawable/edittext_bg</item>
-        <item name="android:gravity">left</item>
-        <item name="android:padding">5dp</item>
-        <item name="android:textColor">#848484</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-    <style name="EditText_Gray_BG">
-        <item name="android:background">@drawable/edittext_bg</item>
-        <item name="android:gravity">left</item>
-        <item name="android:paddingBottom">3dp</item>
-        <item name="android:paddingTop">3dp</item>
-        <item name="android:paddingLeft">5dp</item>
-        <item name="android:textColor">#211E1D</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-
-
-   <!-- 分割线-->
+    <!-- 分割线-->
     <style name="LineStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
@@ -67,19 +48,19 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="MainEditTextStyle">
-        <item name="android:background">#00000000</item>
-        <item name="android:gravity">left</item>
-        <item name="android:textColorHint">#999999</item>
+    <style name="EditTextStyle">
+        <item name="android:background">@null</item>
         <item name="android:textColor">#333333</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textColorHint">#999999</item>
+        <item name="android:textSize">14sp</item>
     </style>
     <!--动画:向上动画-->
     <style name="AnimUp" parent="@android:style/Animation">
         <item name="android:windowEnterAnimation">@anim/set_up_in</item>
         <item name="android:windowExitAnimation">@anim/set_up_out</item>
     </style>
-    <style name="CheckboxStyle" parent="@android:style/Widget.CompoundButton.CheckBox" >
-        <item name= "android:button">@drawable/checkbox </item>
-    </style >
+
+    <style name="CheckboxStyle" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkbox</item>
+    </style>
 </resources>

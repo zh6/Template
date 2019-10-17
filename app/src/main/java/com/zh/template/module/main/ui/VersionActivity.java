@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.zh.template.R;
 import com.zh.template.base.BaseActivity;
-import com.zh.template.component.RetrofitService;
+import com.zh.template.network.RetrofitService;
 import com.zh.template.utils.DeviceUtils;
 import com.zh.template.utils.RxUtils;
 import com.zh.template.utils.SharedPreferenceUtils;

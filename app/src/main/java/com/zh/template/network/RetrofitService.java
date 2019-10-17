@@ -1,4 +1,4 @@
-package com.zh.template.component;
+package com.zh.template.network;
 
 import android.support.annotation.NonNull;
 

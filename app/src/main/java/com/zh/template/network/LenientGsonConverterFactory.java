@@ -1,4 +1,4 @@
-package com.zh.template.component;
+package com.zh.template.network;
 
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
