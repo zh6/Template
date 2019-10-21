@@ -150,7 +150,7 @@ public class RetrofitService {
     /**********************************************封装所有请求接口*********************************************************/
     /***********************************************************************************************************************/
     public Observable<Object> Login(String name, String pwd) {
-        return createAPI().Login(name, pwd)
+        return createAPI().Login(name, pwd, "8", "y", "no")
                 .doOnError(RetrofitService::disposeFailureInfo)
                 .compose(RxUtils.io());
     }

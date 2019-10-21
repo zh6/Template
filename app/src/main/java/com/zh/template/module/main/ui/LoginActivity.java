@@ -88,7 +88,7 @@ public class LoginActivity extends BaseActivity {
                             if (obj.getIntValue("state") == 0) {  //表示登录成功
                                 SharedPreferenceUtils.saveToken(this, obj.getString("token"));  //存token
                                 SharedPreferenceUtils.saveUserInfo(this, name.getText().toString(), pwd.getText().toString());  //存用户账号密码信息
-                                startActivity(new Intent(this, HomeActivity.class));
+                                startActivity(new Intent(this, MainActivity.class));
                             } else {
                                 ToastUtils.showShort(obj.getString("msg"));
                             }

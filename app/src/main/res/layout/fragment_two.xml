@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/title"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="基本控件的使用"
+        android:textColor="@color/white" />
+
+    <com.zh.template.widget.ClearEditText
+        style="@style/EditTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="带清除的输入框"
+        android:padding="15dp" />
+
+    <View style="@style/LineStyle" />
+
+    <com.zh.template.widget.PasswordEditText
+        style="@style/EditTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="带隐藏和显示的密码框"
+        android:padding="15dp" />
+
+    <View style="@style/LineStyle" />
+
+    <com.zh.template.widget.RegexEditText
+        style="@style/EditTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="只能输入大于0的整数"
+        android:padding="15dp"
+        app:regexType="count" />
+
+    <View style="@style/LineStyle" />
+
+    <com.zh.template.widget.RegexEditText
+        style="@style/EditTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="只能输入1开头的手机号"
+        android:padding="15dp"
+        app:regexType="mobile" />
+
+    <View style="@style/LineStyle" />
+
+    <Button
+        android:id="@+id/btn_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="加载动画" />
+
+    <Button
+        android:id="@+id/btn_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="地址选择" />
+
+    <Button
+        android:id="@+id/btn_three"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="基本对话框" />
+
+    <Button
+        android:id="@+id/btn_four"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="带输入框的对话框" />
+
+    <Button
+        android:id="@+id/btn_five"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="列表的弹窗" />
+</LinearLayout>

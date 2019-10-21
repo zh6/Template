@@ -3,6 +3,7 @@ package com.zh.template.base;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+
 import com.zh.template.utils.SharedPreferenceUtils;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
@@ -10,22 +11,24 @@ import com.zh.template.BuildConfig;
 import com.zh.template.utils.LogUtils;
 import com.zh.template.utils.ToastUtils;
 import com.squareup.leakcanary.LeakCanary;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import io.reactivex.plugins.RxJavaPlugins;
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
+
 /**
  * 自定义的Application，做一些初始化配置
  */
 public class MyApplication extends Application {
-    private List<Activity> oList;//用于存放所有启动的Activity的集合
     public static String cacheDir = "";
     private static Context context;
+
     @Override
     public void onCreate() {
         super.onCreate();
         context = this;
-        oList = new ArrayList<Activity>();
         //日志工具
         Logger.addLogAdapter(new AndroidLogAdapter() {
             @Override
@@ -62,6 +65,7 @@ public class MyApplication extends Application {
     public static Context getAppContext() {
         return context.getApplicationContext();
     }
+
     private boolean isExistSDCard() {
         if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
             return true;
@@ -69,6 +73,7 @@ public class MyApplication extends Application {
             return false;
         }
     }
+
     public static String getAppCacheDir() {
         return cacheDir;
     }

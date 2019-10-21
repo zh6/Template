@@ -58,8 +58,7 @@
                 android:layout_height="wrap_content"
                 android:hint="手机号/登录名"
                 android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                app:regexType="decimal" />
+                android:paddingBottom="15dp" />
 
             <View style="@style/LineStyle" />
 

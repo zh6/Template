@@ -4,6 +4,14 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/title"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="网络请求与列表的使用(上拉加载和下拉刷新)"
+        android:textColor="@color/white" />
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
