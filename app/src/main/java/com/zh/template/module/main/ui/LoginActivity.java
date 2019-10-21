@@ -17,6 +17,7 @@ import com.zh.template.utils.RxUtils;
 import com.zh.template.utils.SharedPreferenceUtils;
 import com.zh.template.utils.ToastUtils;
 import com.zh.template.widget.AddressFormPopup;
+import com.zh.template.widget.ClearEditText;
 import com.zh.template.widget.CustomDialog;
 import com.zh.template.widget.PasswordEditText;
 
@@ -28,7 +29,7 @@ import butterknife.OnLongClick;
 
 public class LoginActivity extends BaseActivity {
     @BindView(R.id.name)
-    EditText name;
+    ClearEditText name;
     @BindView(R.id.pwd)
     PasswordEditText pwd;
     @BindView(R.id.login)

@@ -51,7 +51,7 @@
             android:layout_marginRight="48dp"
             android:orientation="vertical">
 
-            <com.zh.template.widget.RegexEditText
+            <com.zh.template.widget.ClearEditText
                 android:id="@+id/name"
                 style="@style/EditTextStyle"
                 android:layout_width="match_parent"

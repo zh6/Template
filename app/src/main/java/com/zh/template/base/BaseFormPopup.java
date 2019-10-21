@@ -22,7 +22,7 @@ import java.util.List;
 import razerdp.basepopup.BasePopupWindow;
 
 /**
- * *用户选择器
+ * *基本列表popup
  * *@author zhaohui
  * *@time 2019/8/2 13:33
  * * ----------Dragon be here!----------/
