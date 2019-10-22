@@ -10,6 +10,7 @@ import com.zh.template.base.BaseFragment;
 import com.zh.template.common.ListItemDecoration;
 import com.zh.template.module.main.entity.AddressEntity;
 import com.zh.template.network.RetrofitService;
+import com.zh.template.utils.RxUtils;
 import com.zh.template.utils.ToastUtils;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
@@ -29,7 +30,6 @@ public class HomeFragment extends BaseFragment {
     private CommonAdapter<AddressEntity> adapter;//万能适配器
     private List<AddressEntity> list = new ArrayList<>(); //数据源
     private int pageNum = 1;//当前页
-
     @Override
     protected int setLayout() {
         return R.layout.fragment_one;
@@ -44,7 +44,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     Observable<List<AddressEntity>> getAddressList(String parentAreaCode, String level) {
-        return RetrofitService.getInstance().getAreaList(parentAreaCode, level);
+        return RetrofitService.getInstance().getAreaList(parentAreaCode, level).compose(RxUtils.fragmentLifecycle(this));
     }
 
     @Override
@@ -112,7 +112,6 @@ public class HomeFragment extends BaseFragment {
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 ToastUtils.showShort("点击了" + adapter.getDatas().get(position).areaName);
             }
-
             @Override
             public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
                 return false;
