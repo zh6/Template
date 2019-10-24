@@ -43,6 +43,7 @@ public class HomeFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
+
     Observable<List<AddressEntity>> getAddressList(String parentAreaCode, String level) {
         return RetrofitService.getInstance().getAreaList(parentAreaCode, level).compose(RxUtils.fragmentLifecycle(this));
     }
@@ -75,20 +76,27 @@ public class HomeFragment extends BaseFragment {
         //下拉刷新操作
         refreshLayout.setOnRefreshListener(v -> {
             //将当前页置1
-            pageNum = 1;
+            if(pageNum==1) {
+                pageNum = 2;
+                showError();
+            }else{
+                hideLayout();
+            }
+
+            v.finishRefresh();
             //重新加载第一页的数据，先clear再addall
-            getAddressList("", "1").doOnError(throwable -> {
-                v.finishRefresh();
-                ToastUtils.showShort(throwable.getMessage());
-            }).doOnNext(res -> {
-                if (list != null) {
-                    list.clear();
-                }
-                list.addAll(res);
-                adapter.notifyDataSetChanged();
-                //关闭刷新
-                v.finishRefresh();
-            }).subscribe();
+//            getAddressList("", "1").doOnError(throwable -> {
+//                v.finishRefresh();
+//                ToastUtils.showShort(throwable.getMessage());
+//            }).doOnNext(res -> {
+//                if (list != null) {
+//                    list.clear();
+//                }
+//                list.addAll(res);
+//                adapter.notifyDataSetChanged();
+//                //关闭刷新
+//                v.finishRefresh();
+//            }).subscribe();
 
 
         });

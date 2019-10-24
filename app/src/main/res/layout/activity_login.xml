@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     tools:context=".module.main.ui.LoginActivity">
-
+    <com.zh.template.widget.HintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -109,7 +111,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
     </LinearLayout>
-
+    </com.zh.template.widget.HintLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -119,4 +121,5 @@
         android:text="版权所有"
         android:textColor="#666666"
         android:textSize="12sp" />
+
 </RelativeLayout>

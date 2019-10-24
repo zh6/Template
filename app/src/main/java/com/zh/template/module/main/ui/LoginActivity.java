@@ -69,8 +69,9 @@ public class LoginActivity extends BaseActivity {
             case R.id.tv_application:
                 break;
             case R.id.seting:
-                addressFormPopup.showPopupWindow();
-                addressFormPopup.setCity(address);
+                showError();
+//                addressFormPopup.showPopupWindow();
+//                addressFormPopup.setCity(address);
                 break;
             case R.id.login:
                 if (TextUtils.isEmpty(name.getText())) {

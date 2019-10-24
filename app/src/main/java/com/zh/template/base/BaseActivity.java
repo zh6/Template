@@ -1,14 +1,23 @@
 package com.zh.template.base;
+
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+
+import com.zh.template.utils.StatusManager;
 import com.zh.template.widget.LoadingDialog;
 import com.zh.template.utils.InputUtils;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.StringRes;
 import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends RxAppCompatActivity {
@@ -16,6 +25,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     private static String TAG = BaseActivity.class.getSimpleName();
     private long lastClickTime;
     public LoadingDialog loadingView;
+    private StatusManager mStatusManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,6 +34,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         ButterKnife.bind(this);
         loadingView = new LoadingDialog(this);
+        mStatusManager = new StatusManager();
         initView();
         initData();
     }
@@ -106,6 +117,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
             loadingView.dismiss();
         }
     }
+
     /**
      * 判断事件出发时间间隔是否超过预定值
      *
@@ -119,5 +131,38 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         }
         lastClickTime = time;
         return false;
+    }
+
+    /**
+     * 显示空提示
+     */
+    public void showEmpty() {
+        mStatusManager.showEmpty(getContentView());
+    }
+
+    /**
+     * 显示错误提示
+     */
+    public void showError() {
+        mStatusManager.showError(getContentView());
+    }
+
+    /**
+     * 显示自定义提示
+     */
+    public void showLayout(@DrawableRes int drawableId, @StringRes int stringId) {
+        mStatusManager.showLayout(getContentView(), drawableId, stringId);
+    }
+    /**
+     * 隐藏提示
+     */
+    public void  hideLayout(){
+        mStatusManager.hideLayout();
+    }
+    /**
+     * 和 setContentView 对应的方法
+     */
+    public ViewGroup getContentView() {
+        return findViewById(Window.ID_ANDROID_CONTENT);
     }
 }
