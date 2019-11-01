@@ -35,7 +35,8 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.login)
     Button login;
     AddressFormPopup addressFormPopup;
-    String[] address=new String[3];
+    String[] address = new String[3];
+
     @Override
     protected int layoutId() {
         return R.layout.activity_login;
@@ -58,7 +59,7 @@ public class LoginActivity extends BaseActivity {
         addressFormPopup.setOnItemClickListener(new AddressFormPopup.OnItemClickListener() {
             @Override
             public void onSelected(String[] saveId) {
-                address=saveId;
+                address = saveId;
             }
         });
     }
@@ -84,7 +85,6 @@ public class LoginActivity extends BaseActivity {
                 }
                 RetrofitService.getInstance().Login(name.getText().toString(), pwd.getText().toString()).doOnSubscribe(aLong -> showDialog(loadingView))
                         .doOnNext(res -> {
-                            closeDialog(loadingView);
                             JSONObject obj = JSON.parseObject(JSON.toJSONString(res));
                             if (obj.getIntValue("state") == 0) {  //表示登录成功
                                 SharedPreferenceUtils.saveToken(this, obj.getString("token"));  //存token
@@ -95,10 +95,8 @@ public class LoginActivity extends BaseActivity {
                             }
 
                         })
-                        .doOnError(throwable -> {
-                            ToastUtils.showShort(throwable.getMessage());
-                            closeDialog(loadingView);
-                        }).compose(RxUtils.activityLifecycle(this)).subscribe();
+                        .doFinally(() -> closeDialog(loadingView))
+                        .doOnError(throwable -> ToastUtils.showShort(throwable.getMessage())).compose(RxUtils.activityLifecycle(this)).subscribe();
                 break;
         }
     }

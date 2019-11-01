@@ -30,6 +30,7 @@ public class HomeFragment extends BaseFragment {
     private CommonAdapter<AddressEntity> adapter;//万能适配器
     private List<AddressEntity> list = new ArrayList<>(); //数据源
     private int pageNum = 1;//当前页
+
     @Override
     protected int setLayout() {
         return R.layout.fragment_one;
@@ -47,7 +48,6 @@ public class HomeFragment extends BaseFragment {
     Observable<List<AddressEntity>> getAddressList(String parentAreaCode, String level) {
         return RetrofitService.getInstance().getAreaList(parentAreaCode, level).compose(RxUtils.fragmentLifecycle(this));
     }
-
     @Override
     protected void initData() {
         //初始化数据
@@ -76,27 +76,22 @@ public class HomeFragment extends BaseFragment {
         //下拉刷新操作
         refreshLayout.setOnRefreshListener(v -> {
             //将当前页置1
-            if(pageNum==1) {
-                pageNum = 2;
-                showError();
-            }else{
-                hideLayout();
-            }
-
-            v.finishRefresh();
+            pageNum = 1;
             //重新加载第一页的数据，先clear再addall
-//            getAddressList("", "1").doOnError(throwable -> {
-//                v.finishRefresh();
-//                ToastUtils.showShort(throwable.getMessage());
-//            }).doOnNext(res -> {
-//                if (list != null) {
-//                    list.clear();
-//                }
-//                list.addAll(res);
-//                adapter.notifyDataSetChanged();
-//                //关闭刷新
-//                v.finishRefresh();
-//            }).subscribe();
+            getAddressList("", "1").doOnError(throwable -> {
+                showError();
+                v.finishRefresh();
+                ToastUtils.showShort(throwable.getMessage());
+            }).doOnNext(res -> {
+                hideLayout();
+                if (list != null) {
+                    list.clear();
+                }
+                list.addAll(res);
+                adapter.notifyDataSetChanged();
+                //关闭刷新
+                v.finishRefresh();
+            }).subscribe();
 
 
         });
@@ -120,6 +115,7 @@ public class HomeFragment extends BaseFragment {
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 ToastUtils.showShort("点击了" + adapter.getDatas().get(position).areaName);
             }
+
             @Override
             public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
                 return false;

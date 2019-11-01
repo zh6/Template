@@ -47,7 +47,7 @@ public class StatisticsFragment extends BaseFragment {
     protected void initView() {
 
     }
-
+    int i=0;
     @Override
     protected void initData() {
         //RxBus事件接收
@@ -57,9 +57,10 @@ public class StatisticsFragment extends BaseFragment {
             }
         }).subscribe();
         RxView.clicks(btnSix)//返回(传入点击的view)
-                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .throttleFirst(2000, TimeUnit.MILLISECONDS)
                 .subscribe((o -> {
-                    ToastUtils.showShort("点击了一次");
+                    i++;
+                    ToastUtils.showShort("点击了:"+i);
                 }));
     }
 
@@ -70,10 +71,10 @@ public class StatisticsFragment extends BaseFragment {
                 RxBus.getInstance().post(new MsgEvent("txt"));
                 break;
             case R.id.btn_two:
-                call();
+                StatisticsFragmentPermissionsDispatcher.callWithPermissionCheck(this);
                 break;
             case R.id.btn_three:
-                DeviceUtils.download(getContext(),true,"http://gdown.baidu.com/data/wisegame/362cf2b94605405e/yingyongshichang_40008.apk");
+               StatisticsFragmentPermissionsDispatcher.readAndWriteWithPermissionCheck(this);
                 break;
             case R.id.btn_four:
                 GlideUtils.loadImage(getContext(),"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571639480517&di=55e69012770fdd4b21bdfeae2ffe9129&imgtype=0&src=http%3A%2F%2Fimg2.biaoqingjia.com%2Fbiaoqing%2F201801%2F12f1d7bc0e4537057fbb3d54e72a8713.gif",imgOne);
@@ -96,5 +97,10 @@ public class StatisticsFragment extends BaseFragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         StatisticsFragmentPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
+    @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
+    void readAndWrite() {
+        DeviceUtils.download(getContext(),true,"http://gdown.baidu.com/data/wisegame/362cf2b94605405e/yingyongshichang_40008.apk");
     }
 }

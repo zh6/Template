@@ -110,7 +110,7 @@ public class BaseFormPopup extends BasePopupWindow {
 
     @Override
     protected Animation onCreateShowAnimation() {
-        return getTranslateVerticalAnimation(1f, 0, 300);
+        return getTranslateVerticalAnimation(1f, 0, 500);
     }
 
     @Override

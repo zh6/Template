@@ -30,6 +30,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 
     /*Google library*/
+    implementation 'com.android.support:support-v4:27.1.1'
     implementation "com.android.support:appcompat-v7:${versions.androidSupportVersion}"
     implementation "com.android.support:design:${versions.androidSupportVersion}"
     implementation "com.android.support:support-v13:${versions.androidSupportVersion}"
@@ -96,5 +97,5 @@ dependencies {
 
     /*图表*/
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-    implementation 'com.android.support:support-v4:27.1.1'
+
 }

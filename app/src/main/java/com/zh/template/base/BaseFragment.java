@@ -29,16 +29,16 @@ public abstract class BaseFragment extends RxFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (mRootView == null && setLayout() > 0) {
+        if (null != mRootView) {
+            ViewGroup parent = (ViewGroup) mRootView.getParent();
+            if (null != parent) {
+                parent.removeView(mRootView);
+            }
+        } else {
             mRootView = inflater.inflate(setLayout(), null);
+            mStatusManager = new StatusManager();
+            unbinder = ButterKnife.bind(this, mRootView);
         }
-
-        ViewGroup parent = (ViewGroup) mRootView.getParent();
-        if (parent != null) {
-            parent.removeView(mRootView);
-        }
-        mStatusManager = new StatusManager();
-        unbinder = ButterKnife.bind(this, mRootView);
         return mRootView;
     }
 
@@ -100,10 +100,11 @@ public abstract class BaseFragment extends RxFragment {
     public void showLayout(@DrawableRes int drawableId, @StringRes int stringId) {
         mStatusManager.showLayout(getView(), drawableId, stringId);
     }
+
     /**
      * 隐藏提示
      */
-    public void  hideLayout(){
+    public void hideLayout() {
         mStatusManager.hideLayout();
     }
 }

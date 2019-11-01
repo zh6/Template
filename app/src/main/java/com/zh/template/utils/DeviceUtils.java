@@ -66,7 +66,7 @@ public class DeviceUtils {
      * @param url
      */
     public static void download(Context context, boolean isForce, String url) {
-        String savePath = Environment.getExternalStorageDirectory() + "/Download/yshfresh_ps.apk";// 储存下载文件的目录
+        String savePath = Environment.getExternalStorageDirectory() + "/Download/Template.apk";// 储存下载文件的目录
         File file = new File(savePath);
         DownLoadManage downLoadManage = new DownLoadManage();
         ProgressDialog pDialog = new ProgressDialog(context);

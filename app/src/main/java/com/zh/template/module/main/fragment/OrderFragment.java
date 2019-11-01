@@ -24,9 +24,10 @@ public class OrderFragment extends BaseFragment {
     AddressFormPopup addressFormPopup;
     //加载动画
     LoadingDialog loadingDialog;
-    String[] address=new String[3];
+    String[] address = new String[3];
     //列表窗口
     BaseFormPopup baseFormPopup;
+
     @Override
     protected int setLayout() {
         return R.layout.fragment_two;
@@ -34,17 +35,17 @@ public class OrderFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        loadingDialog=new LoadingDialog(getContext());
+        loadingDialog = new LoadingDialog(getContext());
         loadingDialog.setCancelable(true);
-        addressFormPopup=new AddressFormPopup(getActivity());
-        List<BasePopEntity> list=new ArrayList<>();
-        for (int i=0;i<20;i++) {
+        addressFormPopup = new AddressFormPopup(getActivity());
+        List<BasePopEntity> list = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
             BasePopEntity entity = new BasePopEntity();
-            entity.code=i+"";
-            entity.name="item"+i;
+            entity.code = i + "";
+            entity.name = "item" + i;
             list.add(entity);
         }
-        baseFormPopup=new BaseFormPopup(getActivity(),list);
+        baseFormPopup = new BaseFormPopup(getActivity(), list);
     }
 
     @Override
@@ -52,21 +53,21 @@ public class OrderFragment extends BaseFragment {
         addressFormPopup.setOnItemClickListener(new AddressFormPopup.OnItemClickListener() {
             @Override
             public void onSelected(String[] saveId) {
-                address=saveId;
+                address = saveId;
             }
         });
         baseFormPopup.setOnItemClickListener(new BaseFormPopup.OnItemClickListener() {
             @Override
             public void onItemClick(View view, BasePopEntity entity) {
                 baseFormPopup.dismiss();
-                ToastUtils.showShort("你选择了："+entity.name);
+                ToastUtils.showShort("你选择了：" + entity.name);
             }
         });
     }
 
-    @OnClick({R.id.btn_one,R.id.btn_two,R.id.btn_three,R.id.btn_four,R.id.btn_five})
+    @OnClick({R.id.btn_one, R.id.btn_two, R.id.btn_three, R.id.btn_four, R.id.btn_five})
     void onClick(View v) {
-        CustomDialog dialog=CustomDialog.getInstance();
+        CustomDialog dialog = CustomDialog.getInstance();
         switch (v.getId()) {
             case R.id.btn_one:
                 loadingDialog.show();
@@ -76,7 +77,7 @@ public class OrderFragment extends BaseFragment {
                 addressFormPopup.setCity(address);
                 break;
             case R.id.btn_three:
-                dialog.showConfirmDialog(getContext(),"基本弹窗");
+                dialog.showConfirmDialog(getContext(), "基本弹窗");
                 dialog.setOnButtonClickListener(new CustomDialog.OnButtonClickListener() {
                     @Override
                     public void onConfirmButtonClick(Dialog dialog) {
@@ -92,12 +93,12 @@ public class OrderFragment extends BaseFragment {
                 });
                 break;
             case R.id.btn_four:
-                dialog.showEditTextDialog(getContext(),"带输入框弹窗");
+                dialog.showEditTextDialog(getContext(), "带输入框弹窗");
                 dialog.setOnEditTextClickListener(new CustomDialog.OnEditTextClickListener() {
                     @Override
                     public void onConfirmButtonClick(Dialog dialog, String msg) {
                         dialog.dismiss();
-                        ToastUtils.showShort("你输入的内容是："+msg);
+                        ToastUtils.showShort("你输入的内容是：" + msg);
                     }
 
                     @Override
@@ -108,7 +109,7 @@ public class OrderFragment extends BaseFragment {
                 });
                 break;
             case R.id.btn_five:
-baseFormPopup.showPopupWindow();
+                baseFormPopup.showPopupWindow();
                 break;
         }
     }
