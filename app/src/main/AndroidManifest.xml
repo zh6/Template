@@ -22,7 +22,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:name="com.zh.template.base.MyApplication"
+        android:name=".base.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -47,28 +47,29 @@
         </provider>
 
         <activity
-            android:name="com.zh.template.module.main.ui.LoginActivity"
+            android:name=".module.main.ui.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.zh.template.module.main.ui.MainActivity"
+            android:name=".module.main.ui.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.zh.template.module.main.ui.SettingsActivity"
+            android:name=".module.main.ui.SettingsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.zh.template.module.main.ui.VersionActivity"
+            android:name=".module.main.ui.VersionActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.zh.template.module.main.ui.ConfigActivity"
+            android:name=".module.main.ui.ConfigActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.zh.template.module.main.ui.HomeActivity"
+            android:name=".module.main.ui.HomeActivity"
             android:screenOrientation="portrait" />
     </application>
 

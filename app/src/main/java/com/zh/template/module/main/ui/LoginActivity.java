@@ -93,9 +93,8 @@ public class LoginActivity extends BaseActivity {
                             } else {
                                 ToastUtils.showShort(obj.getString("msg"));
                             }
-
                         })
-                        .doFinally(() -> closeDialog(loadingView))
+                        .doOnTerminate(() -> closeDialog(loadingView))
                         .doOnError(throwable -> ToastUtils.showShort(throwable.getMessage())).compose(RxUtils.activityLifecycle(this)).subscribe();
                 break;
         }
