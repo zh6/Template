@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.FieldMap;
@@ -26,7 +27,7 @@ public interface AllAPI {
      * @param password  密码
      * @return
      */
-    @GET("login/login")
+    @GET("login/login"+RetrofitUrlManager.IDENTIFICATION_PATH_SIZE + 0)//切换url终极路径模式使用方法，目前路径不需要加
     Observable<Object> Login(@Query("loginName") String loginName, @Query("password") String password, @Query("systemId") String systemId, @Query("nac") String nac, @Query("permisson") String permisson);
 
     /**

@@ -1,9 +1,11 @@
 package com.zh.template.network;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.zh.template.base.MyApplication;
 import com.zh.template.module.main.entity.AddressEntity;
+import com.zh.template.network.interceptor.TokenInterceptor;
 import com.zh.template.utils.LogUtils;
 import com.zh.template.utils.NetUtils;
 import com.zh.template.utils.RxUtils;
@@ -32,23 +34,12 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 /**
- * <Pre>
  * 网络请求引擎类
- * </Pre>
  */
 public class RetrofitService {
-    //设缓存有效期为两天
-    protected static final long CACHE_STALE_SEC = 60 * 60 * 24 * 2;
-    //查询缓存的Cache-Control设置，为if-only-cache时只查询缓存而不会请求服务器，max-stale可以配合设置缓存失效时间
-    protected static final String CACHE_CONTROL_CACHE = "only-if-cached, max-stale=" + CACHE_STALE_SEC;
-    //查询网络的Cache-Control设置，头部Cache-Control设为max-age=0时则不会使用缓存而请求服务器
     protected static final String CACHE_CONTROL_NETWORK = "max-age=0";
     private volatile static OkHttpClient mOkHttpClient;
     private volatile static AllAPI mAPI = null;
-
-    private RetrofitService() {
-    }
-
     private volatile static RetrofitService instance = null;
 
     public static RetrofitService getInstance() {
@@ -97,37 +88,47 @@ public class RetrofitService {
             File cacheFile = new File(MyApplication.getAppContext().getCacheDir(),
                     "HttpCache"); // 指定缓存路径
             Cache cache = new Cache(cacheFile, 1024 * 1024 * 100); // 指定缓存大小100Mb
-            // 云端响应头拦截器，用来配置缓存策略
-            Interceptor rewriteCacheControlInterceptor = new Interceptor() {
+            // 有网时候的缓存
+            Interceptor NetCacheInterceptor = new Interceptor() {
+                @Override
+                public Response intercept(Chain chain) throws IOException {
+                    Request request = chain.request();
+                    Response response = chain.proceed(request);
+                    int onlineCacheTime = 60*60;//在线的时候的缓存过期时间，如果想要不缓存，直接时间设置为0
+                    String cacheControl = request.cacheControl().toString();
+                    if (TextUtils.isEmpty(cacheControl)) {
+                        cacheControl = "public, max-age=" + onlineCacheTime;
+                    }
+                    return response.newBuilder()
+                            .header("Cache-Control", "public,"+cacheControl)
+                            .removeHeader("Pragma")
+                            .build();
+                }
+            };
+            //没有网时候的缓存
+            Interceptor OfflineCacheInterceptor = new Interceptor() {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
                     Request request = chain.request();
                     if (!NetUtils.isConnected(MyApplication.getAppContext())) {
-                        request = request.newBuilder().cacheControl(CacheControl.FORCE_CACHE).build();
-                        Logger.e("no network");
+                        int offlineCacheTime = 60*60;//离线的时候的缓存的过期时间
+                        request = request.newBuilder()
+                                .header("Cache-Control", "public, only-if-cached, max-stale=" + offlineCacheTime)
+                                .build();
                     }
-                    Response originalResponse = chain.proceed(request);
-                    if (NetUtils.isConnected(MyApplication.getAppContext())) {
-                        //有网的时候读接口上的@Headers里的配置，你可以在这里进行统一的设置
-                        String cacheControl = request.cacheControl().toString();
-                        return originalResponse.newBuilder()
-                                .header("Cache-Control", cacheControl)
-                                .removeHeader("Pragma").build();
-                    } else {
-                        return originalResponse.newBuilder().header("Cache-Control",
-                                "public, only-if-cached," + CACHE_STALE_SEC)
-                                .removeHeader("Pragma").build();
-                    }
+                    return chain.proceed(request);
                 }
             };
-            //okhttp 3
+            //日志
             HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor();
             logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-            OkHttpClient.Builder builder = new OkHttpClient.Builder().cache(cache)
-                    .addNetworkInterceptor(rewriteCacheControlInterceptor)
-                    .addInterceptor(rewriteCacheControlInterceptor)
+            //okhttp 3
+            OkHttpClient.Builder builder = new OkHttpClient.Builder()
+                    .addNetworkInterceptor(NetCacheInterceptor)
+                    .addInterceptor(OfflineCacheInterceptor)
+                    .cache(cache)
                     .addInterceptor(logInterceptor)
-                    .addInterceptor(new TokenInterceptor())
+                    .addNetworkInterceptor(new TokenInterceptor())
                     .connectTimeout(10, TimeUnit.SECONDS)
                     .readTimeout(20, TimeUnit.SECONDS)
                     .writeTimeout(20, TimeUnit.SECONDS)
@@ -135,16 +136,6 @@ public class RetrofitService {
             mOkHttpClient = RetrofitUrlManager.getInstance().with(builder).build();
 
         }
-    }
-
-    /**
-     * 根据网络状况获取缓存的策略
-     *
-     * @returna
-     */
-    @NonNull
-    public static String getCacheControl() {
-        return NetUtils.isConnected(MyApplication.getAppContext()) ? CACHE_CONTROL_NETWORK : CACHE_CONTROL_CACHE;
     }
     /***********************************************************************************************************************/
     /**********************************************封装所有请求接口*********************************************************/

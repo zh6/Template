@@ -83,10 +83,10 @@ public class ConfigActivity extends BaseActivity {
                     ToastUtils.showShort("保存失败！请检查接口地址是否错误");
                     return;
                 }
+                SharedPreferenceUtils.saveIp(this, ipStr);
                 // 全局 BaseUrl 的优先级低于 Domain-Name header 中单独配置的,其他未配置的接口将受全局 BaseUrl 的影响
                 RetrofitUrlManager.getInstance().setGlobalDomain(SharedPreferenceUtils.getIp(this));
                 ToastUtils.showShort("保存成功！接口地址为：" + SharedPreferenceUtils.getIp(this));
-                SharedPreferenceUtils.saveIp(this, ipStr);
                 break;
         }
     }

@@ -41,7 +41,7 @@ public class MyApplication extends Application {
         //LeakCanary检测OOM
         LeakCanary.install(this);
         //开启替换Retrofit baseurl高级模式
-        RetrofitUrlManager.getInstance().startAdvancedModel(SharedPreferenceUtils.getIp(this));
+//        RetrofitUrlManager.getInstance().startAdvancedModel(SharedPreferenceUtils.getIp(this));
         //异常捕捉
         //CrashHandler.init(new CrashHandler(getApplicationContext()));
         //缓存（如果存在SD卡则将缓存写入SD卡,否则写入手机内存）

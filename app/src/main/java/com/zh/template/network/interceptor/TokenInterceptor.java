@@ -1,13 +1,13 @@
-package com.zh.template.network;
+package com.zh.template.network.interceptor;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zh.template.base.MyApplication;
+import com.zh.template.network.RetrofitService;
 import com.zh.template.utils.SharedPreferenceUtils;
 
 import java.io.IOException;
 
-import io.reactivex.Observable;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
@@ -16,7 +16,6 @@ import okhttp3.ResponseBody;
 
 public class TokenInterceptor implements Interceptor {
     private static final String TAG = "TokenInterceptor";
-
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request oldRequest = chain.request();

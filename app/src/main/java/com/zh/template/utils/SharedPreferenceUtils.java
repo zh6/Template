@@ -24,9 +24,9 @@ public class SharedPreferenceUtils {
     public static String getIp(Context context) {
         SharedPreferences spf = context.getSharedPreferences("ip", Context.MODE_PRIVATE);
         String ip = spf.getString("IP", "http://xysc.yshfresh.com/");
-//        return ip;
+        return ip;
 //        return "http://114.67.99.110:9200/";
-        return "http://10.2.5.35:8040/";
+//        return "http://10.2.5.35:8040/";
     }
 
     /**
