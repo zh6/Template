@@ -68,7 +68,6 @@ public class RetrofitService {
         }
         return mAPI;
     }
-
     private static Consumer<Throwable> disposeFailureInfo(Throwable t) {
         return throwable -> {
             if (t.toString().contains("GaiException") || t.toString().contains("SocketTimeoutException") ||
