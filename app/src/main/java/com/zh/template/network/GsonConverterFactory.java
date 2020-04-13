@@ -23,13 +23,13 @@ import retrofit2.Retrofit;
 /**
  * 终极Gson解析
  */
-public class LenientGsonConverterFactory extends Converter.Factory {
+public class GsonConverterFactory extends Converter.Factory {
 
     /**
      * Create an instance using a default {@link Gson} instance for conversion. Encoding to JSON and
      * decoding from JSON (when no charset is specified by a header) will use UTF-8.
      */
-    public static LenientGsonConverterFactory create() {
+    public static GsonConverterFactory create() {
         return create(new Gson());
     }
 
@@ -37,13 +37,13 @@ public class LenientGsonConverterFactory extends Converter.Factory {
      * Create an instance using {@code gson} for conversion. Encoding to JSON and
      * decoding from JSON (when no charset is specified by a header) will use UTF-8.
      */
-    public static LenientGsonConverterFactory create(Gson gson) {
-        return new LenientGsonConverterFactory(gson);
+    public static GsonConverterFactory create(Gson gson) {
+        return new GsonConverterFactory(gson);
     }
 
     private final Gson gson;
 
-    private LenientGsonConverterFactory(Gson gson) {
+    private GsonConverterFactory(Gson gson) {
         if (gson == null) throw new NullPointerException("gson == null");
         this.gson = gson;
     }

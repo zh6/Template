@@ -1,6 +1,5 @@
 package com.zh.template.network;
 
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.zh.template.base.MyApplication;
@@ -11,7 +10,6 @@ import com.zh.template.utils.NetUtils;
 import com.zh.template.utils.RxUtils;
 import com.zh.template.utils.SharedPreferenceUtils;
 import com.zh.template.utils.ToastUtils;
-import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +21,6 @@ import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
 import okhttp3.Cache;
-import okhttp3.CacheControl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -62,7 +59,7 @@ public class RetrofitService {
             mAPI = new Retrofit.Builder()
                     .client(mOkHttpClient)
                     .baseUrl(SharedPreferenceUtils.getIp(MyApplication.getAppContext()))
-                    .addConverterFactory(LenientGsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build().create(AllAPI.class);
         }
@@ -83,7 +80,6 @@ public class RetrofitService {
     // 配置OkHttpClient
     private static void initOkHttpClient() {
         if (mOkHttpClient == null) {
-            // 因为BaseUrl不同所以这里Retrofit不为静态，但是OkHttpClient配置是一样的,静态创建一次即可
             File cacheFile = new File(MyApplication.getAppContext().getCacheDir(),
                     "HttpCache"); // 指定缓存路径
             Cache cache = new Cache(cacheFile, 1024 * 1024 * 100); // 指定缓存大小100Mb
@@ -93,7 +89,7 @@ public class RetrofitService {
                 public Response intercept(Chain chain) throws IOException {
                     Request request = chain.request();
                     Response response = chain.proceed(request);
-                    int onlineCacheTime = 60*60;//在线的时候的缓存过期时间，如果想要不缓存，直接时间设置为0
+                    int onlineCacheTime = 30;//在线的时候的缓存过期时间，如果想要不缓存，直接时间设置为0
                     String cacheControl = request.cacheControl().toString();
                     if (TextUtils.isEmpty(cacheControl)) {
                         cacheControl = "public, max-age=" + onlineCacheTime;
@@ -110,7 +106,7 @@ public class RetrofitService {
                 public Response intercept(Chain chain) throws IOException {
                     Request request = chain.request();
                     if (!NetUtils.isConnected(MyApplication.getAppContext())) {
-                        int offlineCacheTime = 60*60;//离线的时候的缓存的过期时间
+                        int offlineCacheTime = 60;//离线的时候的缓存的过期时间
                         request = request.newBuilder()
                                 .header("Cache-Control", "public, only-if-cached, max-stale=" + offlineCacheTime)
                                 .build();
