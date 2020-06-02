@@ -5,15 +5,16 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zh.template.R;
 import com.zh.template.base.BaseActivity;
 import com.zh.template.common.Constants;
-import com.zh.template.network.RetrofitService;
-import com.zh.template.utils.RxUtils;
+import com.zh.template.module.main.entity.AddressEntity;
+import com.zh.template.net.api.test.TestService;
+import com.zh.template.net.use.BaseObserver;
+import com.zh.template.net.use.BaseResponse;
 import com.zh.template.utils.SharedPreferenceUtils;
 import com.zh.template.utils.ToastUtils;
 import com.zh.template.widget.AddressFormPopup;
@@ -26,6 +27,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class LoginActivity extends BaseActivity {
     @BindView(R.id.name)
@@ -74,27 +77,28 @@ public class LoginActivity extends BaseActivity {
                 addressFormPopup.setCity(address);
                 break;
             case R.id.login:
-                if (TextUtils.isEmpty(name.getText())) {
-                    ToastUtils.showShort("请输入账号");
-                    return;
-                }
-                if (TextUtils.isEmpty(pwd.getText())) {
-                    ToastUtils.showShort("请输入密码");
-                    return;
-                }
-                RetrofitService.getInstance().Login(name.getText().toString(), pwd.getText().toString()).doOnSubscribe(aLong -> showDialog(loadingView))
-                        .doOnNext(res -> {
-                            JSONObject obj = JSON.parseObject(JSON.toJSONString(res));
-                            if (obj.getIntValue("state") == 0) {  //表示登录成功
-                                SharedPreferenceUtils.saveToken(this, obj.getString("token"));  //存token
-                                SharedPreferenceUtils.saveUserInfo(this, name.getText().toString(), pwd.getText().toString());  //存用户账号密码信息
-//                                startActivity(new Intent(this, MainActivity.class));
-                            } else {
-                                ToastUtils.showShort(obj.getString("msg"));
-                            }
-                        })
-                        .doOnTerminate(() -> closeDialog(loadingView))
-                        .doOnError(throwable -> ToastUtils.showShort(throwable.getMessage())).compose(RxUtils.activityLifecycle(this)).subscribe();
+                startActivity(new Intent(this, MainActivity.class));
+//                if (TextUtils.isEmpty(name.getText())) {
+//                    ToastUtils.showShort("请输入账号");
+//                    return;
+//                }
+//                if (TextUtils.isEmpty(pwd.getText())) {
+//                    ToastUtils.showShort("请输入密码");
+//                    return;
+//                }
+//                RetrofitService.getInstance().Login(name.getText().toString(), pwd.getText().toString()).doOnSubscribe(aLong -> showDialog(loadingView))
+//                        .doOnNext(res -> {
+//                            JSONObject obj = JSON.parseObject(JSON.toJSONString(res));
+//                            if (obj.getIntValue("state") == 0) {  //表示登录成功
+//                                SharedPreferenceUtils.saveToken(this, obj.getString("token"));  //存token
+//                                SharedPreferenceUtils.saveUserInfo(this, name.getText().toString(), pwd.getText().toString());  //存用户账号密码信息
+////                                startActivity(new Intent(this, MainActivity.class));
+//                            } else {
+//                                ToastUtils.showShort(obj.getString("msg"));
+//                            }
+//                        })
+//                        .doOnTerminate(() -> closeDialog(loadingView))
+//                        .doOnError(throwable -> ToastUtils.showShort(throwable.getMessage())).compose(RxUtils.activityLifecycle(this)).subscribe();
                 break;
         }
     }

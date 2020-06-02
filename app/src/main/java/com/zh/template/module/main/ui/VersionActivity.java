@@ -7,9 +7,7 @@ import android.widget.TextView;
 
 import com.zh.template.R;
 import com.zh.template.base.BaseActivity;
-import com.zh.template.network.RetrofitService;
 import com.zh.template.utils.DeviceUtils;
-import com.zh.template.utils.RxUtils;
 import com.zh.template.utils.SharedPreferenceUtils;
 import com.zh.template.utils.ToastUtils;
 
@@ -44,20 +42,20 @@ public class VersionActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        getDistributionAppNewVersion().doOnError(throwable -> ToastUtils.showShort(throwable.getMessage())).doOnNext(res -> {
-            if (res.get("isUpdate").equals("true")) {
-                version.setVisibility(View.VISIBLE);
-                version.setText("升级到最新版本" + res.get("versionCode"));
-                url = res.get("url");
-            } else {
-                version.setVisibility(View.GONE);
-            }
-        }).subscribe();
+//        getDistributionAppNewVersion().doOnError(throwable -> ToastUtils.showShort(throwable.getMessage())).doOnNext(res -> {
+//            if (res.get("isUpdate").equals("true")) {
+//                version.setVisibility(View.VISIBLE);
+//                version.setText("升级到最新版本" + res.get("versionCode"));
+//                url = res.get("url");
+//            } else {
+//                version.setVisibility(View.GONE);
+//            }
+//        }).subscribe();
     }
 
-    Observable<Map<String, String>> getDistributionAppNewVersion() {
-        return RetrofitService.getInstance().getDistributionAppNewVersion(DeviceUtils.getVersionName(this)).compose(RxUtils.activityLifecycle(this));
-    }
+//    Observable<Map<String, String>> getDistributionAppNewVersion() {
+//        return RetrofitService.getInstance().getDistributionAppNewVersion(DeviceUtils.getVersionName(this)).compose(this.bindToLifecycle());
+//    }
 
     @OnClick({R.id.back, R.id.version})
     public void OnClick(View view) {

@@ -1,10 +1,9 @@
 package com.zh.template.base;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.util.ArrayMap;
 
-import com.zh.template.utils.SharedPreferenceUtils;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.zh.template.BuildConfig;
@@ -12,11 +11,7 @@ import com.zh.template.utils.LogUtils;
 import com.zh.template.utils.ToastUtils;
 import com.squareup.leakcanary.LeakCanary;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.reactivex.plugins.RxJavaPlugins;
-import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
 
 /**
  * 自定义的Application，做一些初始化配置
@@ -24,7 +19,6 @@ import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
 public class MyApplication extends Application {
     public static String cacheDir = "";
     private static Context context;
-
     @Override
     public void onCreate() {
         super.onCreate();

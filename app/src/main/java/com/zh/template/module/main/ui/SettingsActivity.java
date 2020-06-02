@@ -1,6 +1,5 @@
 package com.zh.template.module.main.ui;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.view.View;
@@ -8,8 +7,6 @@ import android.widget.TextView;
 
 import com.zh.template.R;
 import com.zh.template.base.BaseActivity;
-import com.zh.template.network.RetrofitService;
-import com.zh.template.utils.RxUtils;
 import com.zh.template.utils.SharedPreferenceUtils;
 import com.zh.template.utils.ToastUtils;
 import com.zh.template.widget.CustomDialog;
@@ -130,15 +127,15 @@ public class SettingsActivity extends BaseActivity {
                             ToastUtils.showShort("密码由6-16位数字和字母的组合！");
                             return;
                         }
-                        updatePwd(msg).doOnError(throwable -> {
-                            ToastUtils.showShort(throwable.getMessage());
-                        }).doOnNext(res -> {
-                            dialog.dismiss();
-                            ToastUtils.showShort("修改成功！");
-                            SharedPreferenceUtils.saveUserInfo(SettingsActivity.this, SharedPreferenceUtils.getUserInfo(SettingsActivity.this).get(0), msg);
-                            startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
-
-                        }).subscribe();
+//                        updatePwd(msg).doOnError(throwable -> {
+//                            ToastUtils.showShort(throwable.getMessage());
+//                        }).doOnNext(res -> {
+//                            dialog.dismiss();
+//                            ToastUtils.showShort("修改成功！");
+//                            SharedPreferenceUtils.saveUserInfo(SettingsActivity.this, SharedPreferenceUtils.getUserInfo(SettingsActivity.this).get(0), msg);
+//                            startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
+//
+//                        }).subscribe();
                     }
 
                     @Override
@@ -150,7 +147,7 @@ public class SettingsActivity extends BaseActivity {
         }
     }
 
-    Observable<String> updatePwd(String password) {
-        return RetrofitService.getInstance().updatePwd("", password).compose(RxUtils.activityLifecycle(this));
-    }
+//    Observable<String> updatePwd(String password) {
+//        return RetrofitService.getInstance().updatePwd("", password).compose(this.bindToLifecycle());
+//    }
 }

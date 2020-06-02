@@ -12,7 +12,8 @@ import android.widget.ImageView;
 import com.zh.template.R;
 import com.zh.template.common.ListItemDecoration;
 import com.zh.template.module.main.entity.AddressEntity;
-import com.zh.template.network.RetrofitService;
+import com.zh.template.net.api.test.TestService;
+import com.zh.template.net.use.BaseResponse;
 import com.zh.template.utils.ToastUtils;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
@@ -22,8 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import razerdp.basepopup.BasePopupWindow;
-
 /**
  * *用户选择器
  * *@author zhaohui
@@ -75,9 +77,10 @@ public class AddressFormPopup extends BasePopupWindow implements TabLayout.OnTab
         this.context = context;
         initView();
     }
-
-    Observable<List<AddressEntity>> getAddressList(String parentAreaCode, String level) {
-        return RetrofitService.getInstance().getAreaList(parentAreaCode, level);
+    Observable<BaseResponse<List<AddressEntity>>> getAddressList(String parentAreaCode, String level) {
+        return TestService.getInstance().getAreaList(parentAreaCode, level)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     void initView() {
@@ -120,7 +123,7 @@ public class AddressFormPopup extends BasePopupWindow implements TabLayout.OnTab
                     if (cityList != null) {
                         cityList.clear();
                     }
-                    cityList.addAll(res);
+                    cityList.addAll(res.aaData);
                     mCityAdapter.notifyDataSetChanged();
                 }).subscribe();
                 mProvinceView.setVisibility(View.GONE);
@@ -146,7 +149,7 @@ public class AddressFormPopup extends BasePopupWindow implements TabLayout.OnTab
                     if (areaList != null) {
                         areaList.clear();
                     }
-                    areaList.addAll(res);
+                    areaList.addAll(res.aaData);
                     mAreaAdapter.notifyDataSetChanged();
                 }).subscribe();
                 mCityView.setVisibility(View.GONE);
@@ -194,7 +197,7 @@ public class AddressFormPopup extends BasePopupWindow implements TabLayout.OnTab
         mTabLayout.addTab(mTabLayout.newTab().setText("请选择"), true);
         // 显示省份列表
         getAddressList("", "1").doOnNext(res -> {
-            provinceList.addAll(res);
+            provinceList.addAll(res.aaData);
             mProvinceAdapter.notifyDataSetChanged();
         }).subscribe();
 
@@ -291,7 +294,7 @@ public class AddressFormPopup extends BasePopupWindow implements TabLayout.OnTab
             if (provinceList != null) {
                 provinceList.clear();
             }
-            provinceList.addAll(res);
+            provinceList.addAll(res.aaData);
 
             for (AddressEntity item : provinceList) {
                 if (item.areaCode.equals(saveId[0])) {
@@ -306,7 +309,7 @@ public class AddressFormPopup extends BasePopupWindow implements TabLayout.OnTab
             if (cityList != null) {
                 cityList.clear();
             }
-            cityList.addAll(res);
+            cityList.addAll(res.aaData);
             for (AddressEntity item : cityList) {
                 if (item.areaCode.equals(saveId[1])) {
                     mCity = item.areaName;
@@ -320,7 +323,7 @@ public class AddressFormPopup extends BasePopupWindow implements TabLayout.OnTab
             if (areaList != null) {
                 areaList.clear();
             }
-            areaList.addAll(res);
+            areaList.addAll(res.aaData);
             for (AddressEntity item : areaList) {
                 if (item.areaCode.equals(saveId[2])) {
                     mArea = item.areaName;

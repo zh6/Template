@@ -9,8 +9,9 @@ import com.zh.template.R;
 import com.zh.template.base.BaseFragment;
 import com.zh.template.common.ListItemDecoration;
 import com.zh.template.module.main.entity.AddressEntity;
-import com.zh.template.network.RetrofitService;
-import com.zh.template.utils.RxUtils;
+import com.zh.template.net.api.test.TestService;
+import com.zh.template.net.use.BaseObserver;
+import com.zh.template.net.use.BaseResponse;
 import com.zh.template.utils.ToastUtils;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
@@ -21,6 +22,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class HomeFragment extends BaseFragment {
     @BindView(R.id.recyclerview)
@@ -44,21 +47,26 @@ public class HomeFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-
-    Observable<List<AddressEntity>> getAddressList(String parentAreaCode, String level) {
-        return RetrofitService.getInstance().getAreaList(parentAreaCode, level).compose(RxUtils.fragmentLifecycle(this));
+    Observable<BaseResponse<List<AddressEntity>>> getAddressList(String parentAreaCode, String level) {
+        return TestService.getInstance().getAreaList(parentAreaCode, level)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(this.bindToLifecycle());
     }
+
     @Override
     protected void initData() {
-        //初始化数据
-        getAddressList("", "1").doOnError(throwable -> {
-            ToastUtils.showShort(throwable.getMessage());
-        }).doOnNext(res -> {
-            if (list != null) {
-                list.clear();
-            }
-            list.addAll(res);
-        }).subscribe();
+        getAddressList("", "1")
+                .subscribe(new BaseObserver<BaseResponse<List<AddressEntity>>>(getActivity(), true) {
+                    @Override
+                    public void onSuccess(BaseResponse<List<AddressEntity>> response) {
+                        if (list != null) {
+                            list.clear();
+                        }
+                        list.addAll(response.aaData);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
         //adapter初始化需要三个参数（context，布局，数据）
         adapter = new CommonAdapter<AddressEntity>(getContext(), R.layout.item_base_text, list) {
             @Override
@@ -78,36 +86,43 @@ public class HomeFragment extends BaseFragment {
             //将当前页置1
             pageNum = 1;
             //重新加载第一页的数据，先clear再addall
-            getAddressList("", "1").doOnError(throwable -> {
-                showError();
-                v.finishRefresh();
-                ToastUtils.showShort(throwable.getMessage());
-            }).doOnNext(res -> {
-                hideLayout();
-                if (list != null) {
-                    list.clear();
+            getAddressList("", "1").subscribe(new BaseObserver<BaseResponse<List<AddressEntity>>>() {
+                @Override
+                public void onSuccess(BaseResponse<List<AddressEntity>> response) {
+                    if (list != null) {
+                        list.clear();
+                    }
+                    list.addAll(response.aaData);
+                    adapter.notifyDataSetChanged();
+                    //关闭刷新
+                    v.finishRefresh();
                 }
-                list.addAll(res);
-                adapter.notifyDataSetChanged();
-                //关闭刷新
-                v.finishRefresh();
-            }).subscribe();
 
-
+                @Override
+                public void onError(Throwable e) {
+                    super.onError(e);
+                    v.finishRefresh();
+                }
+            });
         });
         //加载更多操作
         refreshLayout.setOnLoadMoreListener(v -> {
             //加载就是页数累加
             pageNum++;
-            getAddressList("", "1").doOnError(throwable -> {
-                v.finishRefresh();
-                ToastUtils.showShort(throwable.getMessage());
-            }).doOnNext(res -> {
-                list.addAll(res);
-                adapter.notifyDataSetChanged();
-                //关闭加载
-                v.finishLoadMore();
-            }).subscribe();
+            getAddressList("", "1").subscribe(new BaseObserver<BaseResponse<List<AddressEntity>>>() {
+                @Override
+                public void onSuccess(BaseResponse<List<AddressEntity>> response) {
+                    list.addAll(response.aaData);
+                    adapter.notifyDataSetChanged();
+                    v.finishLoadMore();
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    super.onError(e);
+                    v.finishLoadMore();
+                }
+            });
         });
         //list点击事件
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {

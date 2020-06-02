@@ -4,7 +4,7 @@ ext {
             'versionName'           : '1.1.2.43',
             'compileSdk'            : 26,
             'buildTools'            : '26.0.1',
-            'minSdk'                : 16,
+            'minSdk'                : 19,
             'targetSdk'             : 25,
             'androidSupportVersion' : '27.1.1',
             'retrofitVersion'       : '2.5.0',

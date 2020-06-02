@@ -1,4 +1,4 @@
-package com.zh.template.network;
+package com.zh.template.net.use;
 
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
@@ -23,13 +23,13 @@ import retrofit2.Retrofit;
 /**
  * 终极Gson解析
  */
-public class GsonConverterFactory extends Converter.Factory {
+public class GsonConverterFactorys extends Converter.Factory {
 
     /**
      * Create an instance using a default {@link Gson} instance for conversion. Encoding to JSON and
      * decoding from JSON (when no charset is specified by a header) will use UTF-8.
      */
-    public static GsonConverterFactory create() {
+    public static GsonConverterFactorys create() {
         return create(new Gson());
     }
 
@@ -37,13 +37,13 @@ public class GsonConverterFactory extends Converter.Factory {
      * Create an instance using {@code gson} for conversion. Encoding to JSON and
      * decoding from JSON (when no charset is specified by a header) will use UTF-8.
      */
-    public static GsonConverterFactory create(Gson gson) {
-        return new GsonConverterFactory(gson);
+    public static GsonConverterFactorys create(Gson gson) {
+        return new GsonConverterFactorys(gson);
     }
 
     private final Gson gson;
 
-    private GsonConverterFactory(Gson gson) {
+    private GsonConverterFactorys(Gson gson) {
         if (gson == null) throw new NullPointerException("gson == null");
         this.gson = gson;
     }
