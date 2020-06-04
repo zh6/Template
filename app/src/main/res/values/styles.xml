@@ -61,6 +61,6 @@
     </style>
 
     <style name="CheckboxStyle" parent="@android:style/Widget.CompoundButton.CheckBox">
-        <item name="android:button">@drawable/checkbox</item>
+        <item name="android:button">@drawable/my_checkbox</item>
     </style>
 </resources>

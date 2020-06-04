@@ -44,7 +44,7 @@ public final class ClearEditText extends RegexEditText
         super.initialize(context, attrs);
 
         // Wrap the drawable so that it can be tinted pre Lollipop
-        mClearDrawable = DrawableCompat.wrap(ContextCompat.getDrawable(context, R.drawable.icon_delete_gray));
+        mClearDrawable = DrawableCompat.wrap(ContextCompat.getDrawable(context, R.drawable.my_icon_delete_gray));
         mClearDrawable.setBounds(0, 0, mClearDrawable.getIntrinsicWidth(), mClearDrawable.getIntrinsicHeight());
         setDrawableVisible(false);
         super.setOnTouchListener(this);

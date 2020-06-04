@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/mine_icon_right" />
+                android:src="@drawable/my_mine_icon_right" />
         </RelativeLayout>
 
         <View style="@style/LineStyle" />
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/mine_icon_right" />
+                android:src="@drawable/my_mine_icon_right" />
         </RelativeLayout>
 
         <View style="@style/LineStyle" />
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/mine_icon_right" />
+                android:src="@drawable/my_mine_icon_right" />
         </RelativeLayout>
         <View style="@style/LineStyle" />
 
@@ -116,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/mine_icon_right" />
+                android:src="@drawable/my_mine_icon_right" />
         </RelativeLayout>
     </LinearLayout>
 

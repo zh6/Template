@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:drawableLeft="@drawable/icon_back"
+            android:drawableLeft="@drawable/my_icon_back"
             android:drawablePadding="5dp"
             android:gravity="center_vertical"
             android:padding="5dp"

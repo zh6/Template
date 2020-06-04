@@ -28,9 +28,9 @@ public class MainActivity extends BaseActivity {
     private ArrayList<Fragment> mFragments = new ArrayList<>();
     private String[] mTitles = {"首页", "订单", "统计", "设置"};
     private int[] mIconUnselectIds = {
-            R.drawable.home_tabicon_home, R.drawable.home_tabicon_list, R.drawable.home_tabicon_tongji, R.drawable.home_tabicon_setting};
+            R.drawable.my_home_tabicon_home, R.drawable.my_home_tabicon_list, R.drawable.my_home_tabicon_tongji, R.drawable.my_home_tabicon_setting};
     private int[] mIconSelectIds = {
-            R.drawable.home_tabicon_home_a, R.drawable.home_tabicon_list_a, R.drawable.home_tabicon_tongji_a, R.drawable.home_tabicon_setting_a};
+            R.drawable.my_home_tabicon_home_a, R.drawable.my_home_tabicon_list_a, R.drawable.my_home_tabicon_tongji_a, R.drawable.my_home_tabicon_setting_a};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private HomeFragment homeFragment = new HomeFragment();
     private OrderFragment orderFragment = new OrderFragment();

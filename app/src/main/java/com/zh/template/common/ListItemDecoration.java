@@ -27,7 +27,7 @@ public class ListItemDecoration extends RecyclerView.ItemDecoration {
             this.mOrentaion = orentaion;
         }
 
-        mDrawable = context.getResources().getDrawable(R.drawable.list_divider);
+        mDrawable = context.getResources().getDrawable(R.drawable.my_list_divider);
     }
 
     @Override
