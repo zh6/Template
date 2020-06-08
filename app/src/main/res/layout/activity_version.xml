@@ -73,7 +73,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
-                    android:background="@drawable/my_button_"
+                    android:background="@drawable/my_btn_"
                     android:gravity="center"
                     android:paddingTop="13dp"
                     android:paddingBottom="13dp"
