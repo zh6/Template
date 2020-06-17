@@ -94,7 +94,7 @@ public class LogUtils {
         isExist(PATH);
         //isDel();
         String needWriteMessage = "\r\n"
-            + DateUtils.getNowMDHMSTime()
+            + DateUtils.currentDateTime()
             + "\r\n"
             + mylogtype
             + "    "
