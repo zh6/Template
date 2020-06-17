@@ -9,7 +9,7 @@ import com.zh.template.R;
 import com.zh.template.base.BaseFragment;
 import com.zh.template.common.ListItemDecoration;
 import com.zh.template.module.main.entity.AddressEntity;
-import com.zh.template.net.api.test.TestService;
+import com.zh.template.net.service.CommonService;
 import com.zh.template.net.use.BaseObserver;
 import com.zh.template.net.use.BaseResponse;
 import com.zh.template.utils.ToastUtils;
@@ -48,7 +48,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     Observable<BaseResponse<List<AddressEntity>>> getAddressList(String parentAreaCode, String level) {
-        return TestService.getInstance().getAreaList(parentAreaCode, level)
+        return CommonService.getInstance().getAreaList(parentAreaCode, level)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(this.bindToLifecycle());

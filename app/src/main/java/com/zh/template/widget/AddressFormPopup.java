@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import com.zh.template.R;
 import com.zh.template.common.ListItemDecoration;
 import com.zh.template.module.main.entity.AddressEntity;
-import com.zh.template.net.api.test.TestService;
+import com.zh.template.net.service.CommonService;
 import com.zh.template.net.use.BaseResponse;
 import com.zh.template.utils.ToastUtils;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -78,7 +78,7 @@ public class AddressFormPopup extends BasePopupWindow implements TabLayout.OnTab
         initView();
     }
     Observable<BaseResponse<List<AddressEntity>>> getAddressList(String parentAreaCode, String level) {
-        return TestService.getInstance().getAreaList(parentAreaCode, level)
+        return CommonService.getInstance().getAreaList(parentAreaCode, level)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

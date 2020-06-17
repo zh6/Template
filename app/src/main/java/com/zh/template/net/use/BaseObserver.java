@@ -17,7 +17,7 @@ import java.text.ParseException;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
-public abstract class BaseObserver<T extends BaseResponse> implements Observer<T> {
+public abstract class BaseObserver<T> implements Observer<T> {
     private String mMsg;
     private LoadingDialog loadingDialog;
     private Context mContext;
@@ -61,19 +61,19 @@ public abstract class BaseObserver<T extends BaseResponse> implements Observer<T
 
     @Override
     public void onNext(T response) {
-        if (response.state==0) {
-            try {
-                onSuccess(response);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                onFailing(response);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//        if (response.state==0) {
+        try {
+            onSuccess(response);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+//        } else {
+//            try {
+//                onFailing(response);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
 
@@ -122,6 +122,7 @@ public abstract class BaseObserver<T extends BaseResponse> implements Observer<T
                 break;
         }
     }
+
     @Override
     public void onComplete() {
         onRequestEnd();
@@ -139,14 +140,14 @@ public abstract class BaseObserver<T extends BaseResponse> implements Observer<T
      *
      * @param response 返回值
      */
-    public void onFailing(T response) {
-        String message = response.msg;
-        if (TextUtils.isEmpty(message)) {
-            ToastUtils.showShort(RESPONSE_RETURN_ERROR);
-        } else {
-            ToastUtils.showShort(message);
-        }
-    }
+//    public void onFailing(T response) {
+//        String message = response.msg;
+//        if (TextUtils.isEmpty(message)) {
+//            ToastUtils.showShort(RESPONSE_RETURN_ERROR);
+//        } else {
+//            ToastUtils.showShort(message);
+//        }
+//    }
 
 
     /**

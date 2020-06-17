@@ -12,7 +12,6 @@ import com.zh.template.R;
 import com.zh.template.base.BaseActivity;
 import com.zh.template.common.Constants;
 import com.zh.template.module.main.entity.AddressEntity;
-import com.zh.template.net.api.test.TestService;
 import com.zh.template.net.use.BaseObserver;
 import com.zh.template.net.use.BaseResponse;
 import com.zh.template.utils.SharedPreferenceUtils;

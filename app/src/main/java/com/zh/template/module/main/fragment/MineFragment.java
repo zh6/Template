@@ -15,8 +15,6 @@ import android.widget.Button;
 import com.alibaba.fastjson.JSON;
 import com.zh.template.R;
 import com.zh.template.base.BaseFragment;
-import com.zh.template.net.api.test.TestService;
-import com.zh.template.net.use.BaseObserver;
 import com.zh.template.utils.ImageUtils;
 import com.zh.template.utils.ToastUtils;
 
@@ -121,11 +119,6 @@ public class MineFragment extends BaseFragment {
                         Map<String,String> map=new HashMap<>();
                         map.put("image",baseStr);
                         map.put("image_type","BASE64");
-                        TestService.getInstance().faceverify(map).doOnNext(res->{
-                            ToastUtils.showShort(res.toString());
-                        }).doOnError(err->{
-                            ToastUtils.showShort(err.getMessage());
-                        }).subscribe();
                     } else {
                         ToastUtils.showShort("找不到照片");
                     }
