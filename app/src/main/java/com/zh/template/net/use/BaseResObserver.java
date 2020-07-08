@@ -1,7 +1,6 @@
 package com.zh.template.net.use;
 
 import android.content.Context;
-import android.content.Intent;
 import android.text.TextUtils;
 
 import com.google.gson.JsonParseException;
@@ -18,7 +17,11 @@ import java.text.ParseException;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
-public abstract class BaseObserver<T> implements Observer<T> {
+/**
+ * 封装接口msg错误
+ * @param <T>
+ */
+public abstract class BaseResObserver<T extends BaseResponse> implements Observer<T> {
     private String mMsg;
     private LoadingDialog loadingDialog;
     private Context mContext;
@@ -30,7 +33,7 @@ public abstract class BaseObserver<T> implements Observer<T> {
     private static final String UNKNOWN_ERROR = "未知错误";
     private static final String RESPONSE_RETURN_ERROR = "服务器返回数据失败";
 
-    public BaseObserver() {
+    public BaseResObserver() {
     }
 
     /**
@@ -38,7 +41,7 @@ public abstract class BaseObserver<T> implements Observer<T> {
      *
      * @param context 上下文
      */
-    public BaseObserver(Context context, boolean isShow) {
+    public BaseResObserver(Context context, boolean isShow) {
         this.mContext = context;
         this.mShowLoading = isShow;
     }
@@ -48,7 +51,7 @@ public abstract class BaseObserver<T> implements Observer<T> {
      *
      * @param context 上下文
      */
-    public BaseObserver(Context context, boolean isShow, String msg) {
+    public BaseResObserver(Context context, boolean isShow, String msg) {
         this.mContext = context;
         this.mShowLoading = isShow;
         this.mMsg = msg;
@@ -62,10 +65,18 @@ public abstract class BaseObserver<T> implements Observer<T> {
 
     @Override
     public void onNext(T response) {
-        try {
-            onSuccess(response);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (response.state == 0) {
+            try {
+                onSuccess(response);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                onFailing(response);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -127,6 +138,21 @@ public abstract class BaseObserver<T> implements Observer<T> {
      * @param response 返回值
      */
     public abstract void onSuccess(T response);
+
+    /**
+     * 网络请求成功但是返回值是错误的
+     *
+     * @param response 返回值
+     */
+    public void onFailing(T response) {
+        String message = response.msg;
+        if (TextUtils.isEmpty(message)) {
+            ToastUtils.showShort(RESPONSE_RETURN_ERROR);
+        } else {
+            ToastUtils.showShort(message);
+        }
+    }
+
 
     /**
      * 网络请求失败原因
