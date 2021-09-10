@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Template</string>
+    <string name="double_exit">Press again to exit</string>
+    <string name="home1_title">Home page</string>
+    <string name="home2_title">information</string>
+    <string name="home3_title">system</string>
+    <string name="home4_title">my</string>
+</resources>
