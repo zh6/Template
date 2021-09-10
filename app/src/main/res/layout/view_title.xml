@@ -1,36 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="48dp"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/title">
-
-        <TextView
+        android:layout_height="match_parent">
+        <ImageView
             android:id="@+id/back"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
-            android:drawableLeft="@drawable/my_icon_back"
-            android:drawablePadding="5dp"
-            android:gravity="center_vertical"
-            android:padding="5dp"
-            android:text="返回"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:paddingHorizontal="15dp"
+            android:src="@drawable/nav_icon_back" />
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/TitleTextStyle"
             android:layout_centerInParent="true"
-            android:textColor="@color/white"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+            android:text="标题" />
+
+        <ImageView
+            android:id="@+id/add"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:paddingHorizontal="15dp"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/nav_button_add" />
+        <TextView
+            android:id="@+id/complete"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:paddingHorizontal="15dp"
+            android:text="完成"
+            android:visibility="gone"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
     </RelativeLayout>
 
 </LinearLayout>

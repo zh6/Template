@@ -1,15 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion versions.compileSdk
-    buildToolsVersion '28.0.3'
-
+    buildToolsVersion '30.0.3'
+    compileSdkVersion 30
     defaultConfig {
         applicationId "com.zh.template"
-        minSdkVersion versions.minSdk
-        targetSdkVersion versions.targetSdk
-        versionCode versions.versionCode
-        versionName versions.versionName
+        minSdkVersion 24
+        targetSdkVersion 30
+        versionCode 1
+        versionName '0.0.1'
         multiDexEnabled true
     }
     buildTypes {
@@ -22,71 +21,75 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    packagingOptions {
+        exclude 'META-INF/proguard/androidx-annotations.pro'
+    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-
-    /*Google library*/
-    implementation 'com.android.support:support-v4:27.1.1'
-    implementation "com.android.support:appcompat-v7:${versions.androidSupportVersion}"
-    implementation "com.android.support:design:${versions.androidSupportVersion}"
-    implementation "com.android.support:support-v13:${versions.androidSupportVersion}"
-
+    // CameraX core library using the camera2 implementation
+    def camerax_version = "1.0.1"
+    // The following line is optional, as the core library is included indirectly by camera-camera2
+    implementation "androidx.camera:camera-core:${camerax_version}"
+    implementation "androidx.camera:camera-camera2:${camerax_version}"
+    // If you want to additionally use the CameraX Lifecycle library
+    implementation "androidx.camera:camera-lifecycle:${camerax_version}"
+    // If you want to additionally use the CameraX View class
+    implementation "androidx.camera:camera-view:1.0.0-alpha27"
+    // If you want to additionally use the CameraX Extensions library
+    implementation "androidx.camera:camera-extensions:1.0.0-alpha27"
+    /*lombok */
+    compileOnly "org.projectlombok:lombok:1.18.20"
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
     /*retrofit2 library*/
-    implementation "com.squareup.retrofit2:retrofit:${versions.retrofitVersion}"
-    implementation "com.squareup.retrofit2:converter-gson:${versions.retrofitVersion}"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:${versions.retrofitVersion}"
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+    implementation "com.squareup.retrofit2:retrofit:2.7.1"
+    implementation "com.squareup.retrofit2:converter-gson:2.5.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.5.0"
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
 
     /*rxjava2 library*/
-    implementation "io.reactivex.rxjava2:rxandroid:${versions.rxandroidVersion}"
-    implementation "io.reactivex.rxjava2:rxjava:${versions.rxjavaVersion}"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+    implementation "io.reactivex.rxjava2:rxjava:2.2.10"
     implementation 'com.jakewharton.rxbinding3:rxbinding:3.0.0'
 
-    /*other library*/
-    implementation "com.github.bumptech.glide:glide:${versions.glideVersion}"
+    api 'com.github.bumptech.glide:glide:4.12.0'
+    implementation 'androidx.appcompat:appcompat:1.3.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    //Glide 用到的 BitmapTransformation
+    //https://github.com/wasabeef/glide-transformations
+    api 'jp.wasabeef:glide-transformations:4.3.0'
 
     /*butterknife*/
-    implementation "com.jakewharton:butterknife:${versions.butterknifeVersion}"
-    annotationProcessor "com.jakewharton:butterknife-compiler:${versions.butterknifeVersion}"
+    implementation 'com.jakewharton:butterknife:10.2.3'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
 
     /*log*/
-    implementation "com.orhanobut:logger:${versions.loggerVersion}"
-    implementation "me.jessyan:retrofit-url-manager:${versions.retrofitManagerVersion}"
-
+    implementation "com.orhanobut:logger:2.2.0"
+    implementation "com.google.android.material:material:1.2.1"
     /* 使用Android生命周期作为提供者*/
     implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-android-lifecycle:2.2.1'
 
     /* 屏幕适配 */
-    implementation 'me.jessyan:autosize:1.1.2'
-
-    /* 底部tab */
-    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
-
+    implementation 'me.jessyan:autosize:1.2.1'
     /* 下拉刷新 */
-    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-25'
-    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-25'
-
+    implementation 'com.scwang.smart:refresh-layout-kernel:2.0.3'      //核心必须依赖
+    implementation 'com.scwang.smart:refresh-header-classics:2.0.3'    //经典刷新头
+    implementation 'com.scwang.smart:refresh-footer-classics:2.0.3'    //经典加载
     /*加载动画*/
     implementation 'com.wang.avi:library:2.1.3'
 
-    /*汉字转拼音*/
-    implementation 'com.belerweb:pinyin4j:2.5.0'
-
     /*权限*/
-    implementation 'com.github.hotchemi:permissionsdispatcher:3.1.0'
-    annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:3.1.0"
+    implementation 'com.permissionx.guolindev:permissionx:1.4.0'
 
     /*fastjson*/
-    implementation 'com.alibaba:fastjson:1.1.54.android'
+    implementation 'com.alibaba:fastjson:1.1.70.android'
 
     /*BasePopup*/
-    implementation 'com.github.razerdp:BasePopup:2.2.1'
-    implementation 'com.github.razerdp:BasePopup-compat-lifecycle:2.2.1'
+    implementation 'io.github.razerdp:BasePopup:3.1.8'
 
     /* baseadapter  */
     implementation 'com.zhy:base-rvadapter:3.0.3'
@@ -97,5 +100,18 @@ dependencies {
 
     /*图表*/
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    /*图片选择*/
+    implementation 'io.github.lucksiege:pictureselector:v2.7.3-rc05'
+    /*拼音*/
+    implementation 'com.github.promeg:tinypinyin:2.0.3'
+    //沉浸式状态栏
+    implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
+    //二维码扫码
+    implementation 'com.github.jenly1314:zxing-lite:2.1.1'
 
+    implementation 'com.github.hackware1993:MagicIndicator:1.7.0'
+
+    implementation 'com.github.lzjin:SideBarView:1.0'
+
+    implementation 'com.mobsandgeeks:android-saripaar:2.0.3'
 }

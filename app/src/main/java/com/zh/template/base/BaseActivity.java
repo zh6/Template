@@ -2,22 +2,20 @@ package com.zh.template.base;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
-
-import com.zh.template.utils.StatusManager;
-import com.zh.template.widget.LoadingDialog;
-import com.zh.template.utils.InputUtils;
+import android.widget.RelativeLayout;
+import com.gyf.immersionbar.ImmersionBar;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+import com.zh.template.R;
+import com.zh.template.utils.InputUtil;
+import com.zh.template.utils.ScreenUtil;
+import com.zh.template.widget.LoadingDialog;
 
-import androidx.annotation.DrawableRes;
-import androidx.annotation.StringRes;
+import androidx.annotation.Nullable;
 import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends RxAppCompatActivity {
@@ -25,18 +23,19 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     private static String TAG = BaseActivity.class.getSimpleName();
     private long lastClickTime;
     public LoadingDialog loadingView;
-    private StatusManager mStatusManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(layoutId());
+        loadingView = new LoadingDialog(this);
+        initImmersionBar();
+        MyApplication.getAppContext().addActivity(this);
         manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         ButterKnife.bind(this);
-        loadingView = new LoadingDialog(this);
-        mStatusManager = new StatusManager();
         initView();
         initData();
+
     }
 
     protected abstract int layoutId();
@@ -55,8 +54,18 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        InputUtils.fixInputMethodManagerLeak(this);
-        closeDialog(loadingView);
+        MyApplication.getAppContext().finishActivity(this);
+        InputUtil.fixInputMethodManagerLeak(this);
+        closeDialog();
+    }
+
+    /**
+     * 初始化沉浸式
+     * Init immersion bar.
+     */
+    protected void initImmersionBar() {
+        //设置共同沉浸式样式
+        ImmersionBar.with(this).statusBarColor(R.color.white).navigationBarColor(R.color.black).statusBarDarkFont(true).fitsSystemWindows(true).init();
     }
 
     /**
@@ -71,17 +80,15 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-    /**
-     * 点击空白处，软键盘关闭
-     */
+    //点击空白处消失
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             if (getCurrentFocus() != null && getCurrentFocus().getWindowToken() != null) {
                 manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
         }
-        return super.onTouchEvent(event);
+        return super.dispatchTouchEvent(ev);
     }
 
     /**
@@ -95,13 +102,10 @@ public abstract class BaseActivity extends RxAppCompatActivity {
             e.printStackTrace();
         }
     }
-
     /**
      * 显示加载动画
-     *
-     * @param loadingView
      */
-    public void showDialog(LoadingDialog loadingView) {
+    public void showDialog() {
         if (loadingView != null && !loadingView.isShowing()) {
             loadingView.show();
         }
@@ -109,10 +113,8 @@ public abstract class BaseActivity extends RxAppCompatActivity {
 
     /**
      * 关闭加载动画
-     *
-     * @param loadingView
      */
-    public void closeDialog(LoadingDialog loadingView) {
+    public void closeDialog() {
         if (loadingView != null && loadingView.isShowing()) {
             loadingView.dismiss();
         }
@@ -133,36 +135,32 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         return false;
     }
 
-    /**
-     * 显示空提示
-     */
-    public void showEmpty() {
-        mStatusManager.showEmpty(getContentView());
-    }
-
-    /**
-     * 显示错误提示
-     */
-    public void showError() {
-        mStatusManager.showError(getContentView());
-    }
-
-    /**
-     * 显示自定义提示
-     */
-    public void showLayout(@DrawableRes int drawableId, @StringRes int stringId) {
-        mStatusManager.showLayout(getContentView(), drawableId, stringId);
-    }
-    /**
-     * 隐藏提示
-     */
-    public void  hideLayout(){
-        mStatusManager.hideLayout();
-    }
-    /**
-     * 和 setContentView 对应的方法
-     */
-    public ViewGroup getContentView() {
-        return findViewById(Window.ID_ANDROID_CONTENT);
+    public void KeyboardOcclusion(View view) {
+        View decorView = getWindow().getDecorView();
+        decorView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            Rect rect = new Rect();
+            //获取窗体的可视区域
+            decorView.getWindowVisibleDisplayFrame(rect);
+            //获取不可视区域高度，
+            //在键盘没有弹起时，main.getRootView().getHeight()调节度应该和rect.bottom高度一样
+            int mainInvisibleHeight = decorView.getRootView().getHeight() - rect.bottom;
+            int screenHeight = decorView.getRootView().getHeight();//屏幕高度
+            //不可见区域大于屏幕本身高度的1/4
+            if (mainInvisibleHeight > screenHeight / 4) {
+                if (view.getHeight() != 0) {//因为onGlobalLayout方法会频繁回调，这里要判断下，不重复设置
+                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                            0);
+                    params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                    view.setLayoutParams(params);
+                }
+            } else {
+                if (view.getHeight() == 0) {//因为onGlobalLayout方法会频繁回调，这里要判断下，不重复设置
+                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                            ScreenUtil.dip2px(this, 60));
+                    params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                    view.setLayoutParams(params);
+                }
+            }
+        });
     }
 }

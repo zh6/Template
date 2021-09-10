@@ -1,13 +1,11 @@
 package com.zh.template.net.use;
 
-/**
- * <Pre>
- * 公共请求返回
- * </Pre>
- */
+import lombok.Data;
+
+@Data
 public class BaseResponse<T> {
-    public int state;
-    public String msg;
-    public int dataCount;
-    public T aaData;
+    private int state;
+    private String msg;
+    private int dataCount;
+    private T aaData;
 }

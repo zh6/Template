@@ -4,11 +4,6 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical">
-    <ImageView
-        android:layout_width="match_parent"
-        android:src="@mipmap/icon_login_top_bg"
-        android:scaleType="fitXY"
-        android:layout_height="140dp" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

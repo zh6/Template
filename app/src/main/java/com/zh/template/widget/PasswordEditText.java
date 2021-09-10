@@ -3,8 +3,6 @@ package com.zh.template.widget;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -14,10 +12,13 @@ import android.view.View;
 
 import com.zh.template.R;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
+
 /**
  * 密码隐藏显示
  */
-public final class PasswordEditText extends RegexEditText
+public final class PasswordEditText extends  RegexEditText
         implements View.OnTouchListener,
         View.OnFocusChangeListener, TextWatcher {
 
@@ -28,8 +29,8 @@ public final class PasswordEditText extends RegexEditText
     private Drawable mVisibleDrawable;
     private Drawable mInvisibleDrawable;
 
-    private View.OnTouchListener mOnTouchListener;
-    private View.OnFocusChangeListener mOnFocusChangeListener;
+    private OnTouchListener mOnTouchListener;
+    private OnFocusChangeListener mOnFocusChangeListener;
 
     public PasswordEditText(Context context) {
         super(context);
@@ -95,17 +96,17 @@ public final class PasswordEditText extends RegexEditText
     }
 
     @Override
-    public void setOnFocusChangeListener(final View.OnFocusChangeListener onFocusChangeListener) {
+    public void setOnFocusChangeListener(final OnFocusChangeListener onFocusChangeListener) {
         mOnFocusChangeListener = onFocusChangeListener;
     }
 
     @Override
-    public void setOnTouchListener(final View.OnTouchListener onTouchListener) {
+    public void setOnTouchListener(final OnTouchListener onTouchListener) {
         mOnTouchListener = onTouchListener;
     }
 
     /**
-     * {@link View.OnFocusChangeListener}
+     * {@link OnFocusChangeListener}
      */
 
     @Override
@@ -121,7 +122,7 @@ public final class PasswordEditText extends RegexEditText
     }
 
     /**
-     * {@link View.OnTouchListener}
+     * {@link OnTouchListener}
      */
 
     @Override

@@ -1,121 +1,93 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?><!--<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context=".module.main.ui.LoginActivity">
+    android:background="@color/green"
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_horizontal"
+        android:layout_centerInParent="true"
+        android:gravity="center"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="17dp"
-            android:gravity="center"
-            android:text=""
-            android:textColor="@color/white"
-            android:textSize="18sp" />
-
         <ImageView
-            android:id="@+id/seting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/ic_launcher_background" />
-
-        <!--  <ImageView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginTop="16dp"
-              android:src="@drawable/logon_name" />
-
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginTop="10dp"
-              android:text="您的生鲜配送专家"
-              android:textColor="@color/white"
-              android:textSize="12sp" />-->
+            android:id="@+id/img_logo"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginBottom="30dp"
+            android:src="@drawable/ic_add_image" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="48dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="48dp"
+            android:layout_marginHorizontal="40dp"
             android:orientation="vertical">
 
             <com.zh.template.widget.ClearEditText
                 android:id="@+id/name"
                 style="@style/EditTextStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:hint="手机号/登录名"
+                android:inputType="text"
+                android:maxLines="1"
                 android:paddingTop="15dp"
-                android:paddingBottom="15dp" />
+                android:paddingBottom="15dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white" />
 
-            <View style="@style/LineStyle" />
+            <View
+                style="@style/LineStyle"
+                android:background="@color/white" />
 
             <com.zh.template.widget.PasswordEditText
                 android:id="@+id/pwd"
                 style="@style/EditTextStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:hint="密码"
                 android:maxLength="20"
                 android:maxLines="1"
                 android:paddingTop="15dp"
-                android:paddingBottom="15dp" />
+                android:paddingBottom="15dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white" />
 
-            <View style="@style/LineStyle" />
+            <View
+                style="@style/LineStyle"
+                android:background="@color/white" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="10dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="忘记密码？"
-                    android:textColor="#666666"
-                    android:textSize="14sp" />
+                    style="@style/MainTextStyle"
+                    android:text="" />
 
-                <TextView
-                    android:id="@+id/tv_application"
+                <CheckBox
+                    android:id="@+id/cb_pwd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="申请服务"
-                    android:textColor="#23A389"
-                    android:textSize="14sp" />
+                    android:background="@null"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/my_checkbox"
+                    android:drawablePadding="5dp"
+                    android:text="记住密码"
+                    android:textColor="@color/white" />
             </RelativeLayout>
         </LinearLayout>
 
         <Button
             android:id="@+id/login"
-            android:layout_width="280dp"
-            android:layout_height="44dp"
+            style="@style/MainTextStyle"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="30dp"
             android:layout_marginTop="30dp"
-            android:background="@drawable/my_btn_"
+            android:background="@drawable/my_btn_green_solid"
             android:text="登录"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textColor="@color/white" />
     </LinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="44dp"
-        android:text="版权所有"
-        android:textColor="#666666"
-        android:textSize="12sp" />
-
-</RelativeLayout>
+</LinearLayout>

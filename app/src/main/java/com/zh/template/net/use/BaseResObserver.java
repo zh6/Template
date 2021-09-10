@@ -1,10 +1,13 @@
 package com.zh.template.net.use;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 
 import com.google.gson.JsonParseException;
-import com.zh.template.utils.ToastUtils;
+import com.zh.template.page.LoginActivity;
+import com.zh.template.utils.SPUtil;
+import com.zh.template.utils.ToastUtil;
 import com.zh.template.widget.LoadingDialog;
 
 import org.json.JSONException;
@@ -19,6 +22,7 @@ import io.reactivex.disposables.Disposable;
 
 /**
  * 封装接口msg错误
+ *
  * @param <T>
  */
 public abstract class BaseResObserver<T extends BaseResponse> implements Observer<T> {
@@ -41,9 +45,9 @@ public abstract class BaseResObserver<T extends BaseResponse> implements Observe
      *
      * @param context 上下文
      */
-    public BaseResObserver(Context context, boolean isShow) {
+    public BaseResObserver(Context context) {
         this.mContext = context;
-        this.mShowLoading = isShow;
+        this.mShowLoading = true;
     }
 
     /**
@@ -51,9 +55,9 @@ public abstract class BaseResObserver<T extends BaseResponse> implements Observe
      *
      * @param context 上下文
      */
-    public BaseResObserver(Context context, boolean isShow, String msg) {
+    public BaseResObserver(Context context, String msg) {
         this.mContext = context;
-        this.mShowLoading = isShow;
+        this.mShowLoading = true;
         this.mMsg = msg;
     }
 
@@ -62,15 +66,20 @@ public abstract class BaseResObserver<T extends BaseResponse> implements Observe
         onRequestStart();
     }
 
-
     @Override
     public void onNext(T response) {
-        if (response.state == 0) {
+        onRequestEnd();
+        if (response.getState() == 0) {
             try {
                 onSuccess(response);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else if (response.getState() == 97) {
+            SPUtil.USER.clear();
+            Intent intent = new Intent(mContext, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //关键的一句，将新的activity置为栈顶
+            mContext.startActivity(intent);
         } else {
             try {
                 onFailing(response);
@@ -78,6 +87,7 @@ public abstract class BaseResObserver<T extends BaseResponse> implements Observe
                 e.printStackTrace();
             }
         }
+
     }
 
 
@@ -105,31 +115,31 @@ public abstract class BaseResObserver<T extends BaseResponse> implements Observe
     private void onException(ExceptionReason reason) {
         switch (reason) {
             case CONNECT_ERROR:
-                ToastUtils.showShort(CONNECT_ERROR);
+                ToastUtil.showShort(CONNECT_ERROR);
                 break;
 
             case CONNECT_TIMEOUT:
-                ToastUtils.showShort(CONNECT_TIMEOUT);
+                ToastUtil.showShort(CONNECT_TIMEOUT);
                 break;
 
             case BAD_NETWORK:
-                ToastUtils.showShort(BAD_NETWORK);
+                ToastUtil.showShort(BAD_NETWORK);
                 break;
 
             case PARSE_ERROR:
-                ToastUtils.showShort(PARSE_ERROR);
+                ToastUtil.showShort(PARSE_ERROR);
                 break;
 
             case UNKNOWN_ERROR:
             default:
-                ToastUtils.showShort(UNKNOWN_ERROR);
+//                ToastUtil.showShort(UNKNOWN_ERROR);
                 break;
         }
     }
 
     @Override
     public void onComplete() {
-        onRequestEnd();
+        //请求结束
     }
 
     /**
@@ -145,11 +155,11 @@ public abstract class BaseResObserver<T extends BaseResponse> implements Observe
      * @param response 返回值
      */
     public void onFailing(T response) {
-        String message = response.msg;
+        String message = response.getMsg();
         if (TextUtils.isEmpty(message)) {
-            ToastUtils.showShort(RESPONSE_RETURN_ERROR);
+            ToastUtil.showShort(RESPONSE_RETURN_ERROR);
         } else {
-            ToastUtils.showShort(message);
+            ToastUtil.showShort(message);
         }
     }
 

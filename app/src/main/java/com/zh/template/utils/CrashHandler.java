@@ -30,9 +30,9 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
-        LogUtils.e(TAG, ex.toString());
-        LogUtils.e(TAG, getCrashDeviceInfo());
-        LogUtils.e(TAG, getCrashInfo(ex));
+        LogUtil.e(TAG, ex.toString());
+        LogUtil.e(TAG, getCrashDeviceInfo());
+        LogUtil.e(TAG, getCrashInfo(ex));
         // 调用系统错误机制
         defaultHandler.uncaughtException(thread, ex);
     }
@@ -52,7 +52,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     }
 
     public String getCrashDeviceInfo() {
-        String versionName = DeviceUtils.getVersionName(context);
+        String versionName = DeviceUtil.getVersionName(context);
         String model = android.os.Build.MODEL;
         String androidVersion = android.os.Build.VERSION.RELEASE;
         String manufacturer = android.os.Build.MANUFACTURER;

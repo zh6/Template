@@ -2,14 +2,16 @@ package com.zh.template.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v7.widget.AppCompatEditText;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.util.AttributeSet;
 
+
 import com.zh.template.R;
 
 import java.util.regex.Pattern;
+
+import androidx.appcompat.widget.AppCompatEditText;
 
 public class RegexEditText extends AppCompatEditText implements InputFilter {
 

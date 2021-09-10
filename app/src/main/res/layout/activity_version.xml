@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical"
-    tools:context=".module.main.ui.VersionActivity">
+    tools:context=".page.VersionActivity">
 
     <include layout="@layout/view_title" />
 
@@ -73,7 +73,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
-                    android:background="@drawable/my_btn_"
+                    android:background="@drawable/my_btn_gray_solid"
                     android:gravity="center"
                     android:paddingTop="13dp"
                     android:paddingBottom="13dp"

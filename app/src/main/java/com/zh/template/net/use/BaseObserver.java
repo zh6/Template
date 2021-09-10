@@ -1,14 +1,12 @@
 package com.zh.template.net.use;
 
 import android.content.Context;
-import android.content.Intent;
 import android.text.TextUtils;
 
+import com.alibaba.fastjson.JSONException;
 import com.google.gson.JsonParseException;
-import com.zh.template.utils.ToastUtils;
+import com.zh.template.utils.ToastUtil;
 import com.zh.template.widget.LoadingDialog;
-
-import org.json.JSONException;
 
 import java.io.InterruptedIOException;
 import java.net.ConnectException;
@@ -38,9 +36,9 @@ public abstract class BaseObserver<T> implements Observer<T> {
      *
      * @param context 上下文
      */
-    public BaseObserver(Context context, boolean isShow) {
+    public BaseObserver(Context context) {
         this.mContext = context;
-        this.mShowLoading = isShow;
+        this.mShowLoading = true;
     }
 
     /**
@@ -48,9 +46,9 @@ public abstract class BaseObserver<T> implements Observer<T> {
      *
      * @param context 上下文
      */
-    public BaseObserver(Context context, boolean isShow, String msg) {
+    public BaseObserver(Context context, String msg) {
         this.mContext = context;
-        this.mShowLoading = isShow;
+        this.mShowLoading = true;
         this.mMsg = msg;
     }
 
@@ -62,6 +60,7 @@ public abstract class BaseObserver<T> implements Observer<T> {
 
     @Override
     public void onNext(T response) {
+        onRequestEnd();
         try {
             onSuccess(response);
         } catch (Exception e) {
@@ -94,31 +93,30 @@ public abstract class BaseObserver<T> implements Observer<T> {
     private void onException(ExceptionReason reason) {
         switch (reason) {
             case CONNECT_ERROR:
-                ToastUtils.showShort(CONNECT_ERROR);
+                ToastUtil.showShort(CONNECT_ERROR);
                 break;
 
             case CONNECT_TIMEOUT:
-                ToastUtils.showShort(CONNECT_TIMEOUT);
+                ToastUtil.showShort(CONNECT_TIMEOUT);
                 break;
 
             case BAD_NETWORK:
-                ToastUtils.showShort(BAD_NETWORK);
+                ToastUtil.showShort(BAD_NETWORK);
                 break;
 
             case PARSE_ERROR:
-                ToastUtils.showShort(PARSE_ERROR);
+                ToastUtil.showShort(PARSE_ERROR);
                 break;
-
             case UNKNOWN_ERROR:
             default:
-                ToastUtils.showShort(UNKNOWN_ERROR);
+//                ToastUtil.showShort(UNKNOWN_ERROR);
                 break;
         }
     }
 
     @Override
     public void onComplete() {
-        onRequestEnd();
+
     }
 
     /**

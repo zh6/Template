@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:orientation="vertical"
-    tools:context=".module.main.ui.SettingsActivity">
+    android:orientation="vertical">
 
     <include layout="@layout/view_title" />
 
@@ -16,120 +12,126 @@
         android:layout_marginTop="10dp"
         android:background="@color/white"
         android:orientation="vertical"
-        android:paddingLeft="13dp"
-        android:paddingRight="14dp">
+        android:paddingHorizontal="15dp">
 
 
         <RelativeLayout
-            android:id="@+id/rl_personal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="15dp"
-            android:paddingBottom="14dp">
+            android:paddingVertical="15dp">
 
             <TextView
-                android:id="@+id/t1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/MainTextStyle"
                 android:layout_centerVertical="true"
-                android:text="个人信息"
-                android:textColor="#211E1D"
-                android:textSize="16sp" />
+                android:text="头像" />
 
             <ImageView
-                android:id="@+id/img_right2"
+                android:id="@+id/img_header"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@+id/img_right"
+                android:src="@drawable/home_head_default" />
+
+            <ImageView
+                android:id="@+id/img_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/my_mine_icon_right" />
+                android:src="@drawable/card_icon_arrow" />
         </RelativeLayout>
 
         <View style="@style/LineStyle" />
 
         <RelativeLayout
-            android:id="@+id/rl_store"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="15dp"
-            android:paddingBottom="14dp">
+            android:paddingVertical="15dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="店铺信息"
-                android:textColor="#211E1D"
-                android:textSize="16sp" />
+                style="@style/MainTextStyle"
+                android:text="用户名" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <TextView
+                android:id="@+id/tv_name"
+                style="@style/MainTextStyle"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/my_mine_icon_right" />
+                android:drawableRight="@drawable/card_icon_arrow"
+                android:drawablePadding="5dp" />
+
+
         </RelativeLayout>
 
         <View style="@style/LineStyle" />
 
         <RelativeLayout
-            android:id="@+id/rl_pwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="15dp"
-            android:paddingBottom="14dp">
+            android:paddingVertical="15dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="修改密码"
-                android:textColor="#211E1D"
-                android:textSize="16sp" />
+                style="@style/MainTextStyle"
+                android:text="手机号" />
 
-            <ImageView
+            <TextView
+                android:id="@+id/tv_phone"
+                style="@style/MainTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/my_mine_icon_right" />
+                android:drawableRight="@drawable/card_icon_arrow"
+                android:drawablePadding="5dp" />
         </RelativeLayout>
+
         <View style="@style/LineStyle" />
 
         <RelativeLayout
             android:id="@+id/rl_version"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="15dp"
-            android:paddingBottom="14dp">
+            android:paddingVertical="15dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="版本信息"
-                android:textColor="#211E1D"
-                android:textSize="16sp" />
+                style="@style/MainTextStyle"
+                android:text="版本信息" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <TextView
+                android:id="@+id/tv_version"
+                style="@style/MainTextStyle"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/my_mine_icon_right" />
+                android:drawableRight="@drawable/card_icon_arrow"
+                android:drawablePadding="5dp" />
         </RelativeLayout>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/logout"
+    <RelativeLayout
+        android:id="@+id/rl_area"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@color/white"
+        android:padding="15dp">
+
+        <TextView
+            style="@style/MainTextStyle"
+            android:text="我的管辖区域" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/card_icon_arrow" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_logout"
+        style="@style/MainTextStyle"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
         android:gravity="center"
         android:padding="15dp"
-        android:text="退出当前账号"
-        android:textColor="#FC545A"
-        android:textSize="14sp"
-        android:textStyle="bold" />
+        android:text="退出登录"/>
 </LinearLayout>

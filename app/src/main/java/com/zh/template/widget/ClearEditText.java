@@ -3,15 +3,17 @@ package com.zh.template.widget;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+
 import com.zh.template.R;
+
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 /**
  * 带清除按钮的 EditText
@@ -22,8 +24,8 @@ public final class ClearEditText extends RegexEditText
 
     private Drawable mClearDrawable;
 
-    private OnTouchListener mOnTouchListener;
-    private OnFocusChangeListener mOnFocusChangeListener;
+    private View.OnTouchListener mOnTouchListener;
+    private View.OnFocusChangeListener mOnFocusChangeListener;
 
     public ClearEditText(Context context) {
         super(context);
@@ -37,7 +39,13 @@ public final class ClearEditText extends RegexEditText
         super(context, attrs, defStyleAttr);
     }
 
-    @SuppressWarnings("all")
+    private ClearListener clearListener;
+    public interface ClearListener {
+        void deleteState();
+    }
+    public void setClearListener(ClearListener l) {
+        this.clearListener = l;
+    }
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void initialize(Context context, AttributeSet attrs) {
@@ -67,12 +75,12 @@ public final class ClearEditText extends RegexEditText
     }
 
     @Override
-    public void setOnFocusChangeListener(final OnFocusChangeListener onFocusChangeListener) {
+    public void setOnFocusChangeListener(final View.OnFocusChangeListener onFocusChangeListener) {
         mOnFocusChangeListener = onFocusChangeListener;
     }
 
     @Override
-    public void setOnTouchListener(final OnTouchListener onTouchListener) {
+    public void setOnTouchListener(final View.OnTouchListener onTouchListener) {
         mOnTouchListener = onTouchListener;
     }
 
@@ -102,6 +110,9 @@ public final class ClearEditText extends RegexEditText
         if (mClearDrawable.isVisible() && x > getWidth() - getPaddingRight() - mClearDrawable.getIntrinsicWidth()) {
             if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                 setText("");
+                if (clearListener != null) {
+                    clearListener.deleteState();
+                }
             }
             return true;
         }

@@ -32,18 +32,8 @@ public class CustomDialog {
         TextView tvCancel = (TextView) view.findViewById(R.id.tv_cancel_dialog);
         TextView tvConfirm = (TextView) view.findViewById(R.id.tv_confirm_dialog);
         tvMsg.setText(message);
-        tvCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onButtonClickListener.onCancelButtonClick(dialog);
-            }
-        });
-        tvConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onButtonClickListener.onConfirmButtonClick(dialog);
-            }
-        });
+        tvCancel.setOnClickListener(v -> onButtonClickListener.onCancelButtonClick(dialog));
+        tvConfirm.setOnClickListener(v -> onButtonClickListener.onConfirmButtonClick(dialog));
         dialog.getWindow().setContentView(view);
     }
 
@@ -85,27 +75,19 @@ public class CustomDialog {
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         View view = View.inflate(context, R.layout.dialog_confirm, null);
-        TextView tvTitle = (TextView) view.findViewById(R.id.tv_title_dialog);
-        EditText editText = (EditText) view.findViewById(R.id.et_message_dialog);
+        TextView tvTitle =  view.findViewById(R.id.tv_title_dialog);
+        EditText editText = view.findViewById(R.id.et_message_dialog);
         tvTitle.setVisibility(View.VISIBLE);
         editText.setVisibility(View.VISIBLE);
-        TextView tvMsg = (TextView) view.findViewById(R.id.tv_message_dialog);
+        TextView tvMsg = view.findViewById(R.id.tv_message_dialog);
         tvMsg.setVisibility(View.GONE);
-        TextView tvCancel = (TextView) view.findViewById(R.id.tv_cancel_dialog);
-        TextView tvConfirm = (TextView) view.findViewById(R.id.tv_confirm_dialog);
+        TextView tvCancel =  view.findViewById(R.id.tv_cancel_dialog);
+        TextView tvConfirm = view.findViewById(R.id.tv_confirm_dialog);
         tvTitle.setText(title);
-        tvCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onEditTextClickListener.onCancelButtonClick(dialog);
-            }
-        });
-        tvConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String msg = editText.getText().toString();
-                onEditTextClickListener.onConfirmButtonClick(dialog, msg);
-            }
+        tvCancel.setOnClickListener(v -> onEditTextClickListener.onCancelButtonClick(dialog));
+        tvConfirm.setOnClickListener(v -> {
+            String msg = editText.getText().toString();
+            onEditTextClickListener.onConfirmButtonClick(dialog, msg);
         });
         dialog.getWindow().setContentView(view);
     }
@@ -135,4 +117,8 @@ public class CustomDialog {
          */
         void onCancelButtonClick(Dialog dialog);
     }
+
+
+
+
 }

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorAccent">#D81B60</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorAccent">#333333</color>
+    <color name="colorPrimaryDark">#F2F2F2</color>
 
     <color name="background">#F7F7F7</color>
     <color name="transparent">#00000000</color>
     <color name="list_divider">#10000000</color>
     <color name="black">#000000</color>
+    <color name="black_3">#333333</color>
+    <color name="black_9">#999999</color>
     <color name="white">#ffffff</color>
-    <color name="gray">#f2f2f2</color>
-    <color name="red">#FF0000</color>
-    <color name="green">#1acb1a</color>
-    <color name="loading">#ff067eea</color>
+    <color name="green">#00B95B</color>
     <color name="title">#23A389</color>
+    <color name="app_color_f6">#f6f6f6</color>
 </resources>

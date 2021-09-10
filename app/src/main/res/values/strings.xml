@@ -1,10 +1,4 @@
 <resources>
-    <string name="app_name">Template</string>
+    <string name="app_name">运营终端</string>
     <string name="double_exit">再按一次退出</string>
-    <string name="error">服务出了点小问题，请重试！</string>
-    <string name="success">操作成功！</string>
-    <!-- 提示 -->
-    <string name="hint_layout_no_data">亲，暂无数据</string>
-    <string name="hint_layout_error_request">亲，请求出错了</string>
-    <string name="hint_layout_error_network">亲，没有网络了</string>
 </resources>

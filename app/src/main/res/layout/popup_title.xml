@@ -6,19 +6,15 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:text="请选择"
-            android:textColor="#333333"
-            android:textSize="17sp"
-            android:textStyle="bold" />
-
+            style="@style/MainTextStyle"/>
         <ImageView
-            android:id="@+id/ic_close"
+            android:id="@+id/img_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="15dp"

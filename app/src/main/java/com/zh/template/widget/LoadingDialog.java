@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.widget.TextView;
-
 import com.wang.avi.AVLoadingIndicatorView;
 import com.zh.template.R;
 
