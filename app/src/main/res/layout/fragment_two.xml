@@ -33,25 +33,6 @@
 
     <View style="@style/LineStyle" />
 
-    <com.zh.template.widget.RegexEditText
-        style="@style/EditTextStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="只能输入大于0的整数"
-        android:padding="15dp"
-        app:regexType="count" />
-
-    <View style="@style/LineStyle" />
-
-    <com.zh.template.widget.RegexEditText
-        style="@style/EditTextStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="只能输入1开头的手机号"
-        android:padding="15dp"
-        app:regexType="mobile" />
-
-    <View style="@style/LineStyle" />
 
     <Button
         android:id="@+id/btn_one"

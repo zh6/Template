@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.jiuhzou.operation.R;
+import com.zh.template.R;
 
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.core.content.ContextCompat;
