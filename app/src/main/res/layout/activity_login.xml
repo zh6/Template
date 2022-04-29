@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?><!--<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/green"
-    android:orientation="vertical">
+    android:background="@drawable/login_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -17,7 +15,7 @@
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:layout_marginBottom="30dp"
-            android:src="@drawable/ic_add_image" />
+            android:src="@drawable/login_logo" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,15 +23,15 @@
             android:layout_marginHorizontal="40dp"
             android:orientation="vertical">
 
-            <com.zh.template.widget.ClearEditText
+            <com.jiuzhou.template.widget.ClearEditText
                 android:id="@+id/name"
                 style="@style/EditTextStyle"
                 android:layout_width="match_parent"
                 android:hint="手机号/登录名"
                 android:inputType="text"
                 android:maxLines="1"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:paddingVertical="15dp"
+                android:paddingHorizontal="5dp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white" />
 
@@ -41,15 +39,15 @@
                 style="@style/LineStyle"
                 android:background="@color/white" />
 
-            <com.zh.template.widget.PasswordEditText
+            <com.jiuzhou.template.widget.PasswordEditText
                 android:id="@+id/pwd"
                 style="@style/EditTextStyle"
                 android:layout_width="match_parent"
                 android:hint="密码"
                 android:maxLength="20"
                 android:maxLines="1"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:paddingHorizontal="5dp"
+                android:paddingVertical="15dp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white" />
 
@@ -89,5 +87,27 @@
             android:background="@drawable/my_btn_green_solid"
             android:text="登录"
             android:textColor="@color/white" />
+
     </LinearLayout>
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text=""-->
+<!--            android:textColor="@color/white"-->
+<!--            />-->
+    <TextView
+        android:id="@+id/tv_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="版本号"
+        android:textColor="@color/white"
+        />
+    </LinearLayout>
+</RelativeLayout>

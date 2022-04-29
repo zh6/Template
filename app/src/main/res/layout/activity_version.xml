@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:orientation="vertical"
-    tools:context=".page.VersionActivity">
+    android:orientation="vertical">
 
     <include layout="@layout/view_title" />
 
@@ -35,20 +32,15 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Template"
-                            android:textColor="#66BE30"
-                            android:textSize="14sp" />
+                            style="@style/MainTextStyle"
+                            android:text="@string/app_name" />
 
                         <TextView
                             android:id="@+id/versionNo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            style="@style/MainTextStyle"
+                            android:layout_marginLeft="10dp"
                             android:text="V1.0.0"
-                            android:textColor="#66BE30"
-                            android:textSize="14sp" />
+                            android:textColor="@color/green" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -64,23 +56,20 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Template快速开发模板"
+                    android:text=""
                     android:textColor="#90211E1D"
                     android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/version"
+                    style="@style/MainTextStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:background="@drawable/my_btn_gray_solid"
+                    android:layout_marginHorizontal="30dp"
+                    android:background="@drawable/my_btn_green_solid"
                     android:gravity="center"
-                    android:paddingTop="13dp"
-                    android:paddingBottom="13dp"
-                    android:text="升级到最新版本V1.1.0"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:visibility="gone" />
+                    android:paddingVertical="10dp"
+                    android:text="升级到最新版本"
+                    android:textColor="@color/white" />
             </LinearLayout>
         </LinearLayout>
 

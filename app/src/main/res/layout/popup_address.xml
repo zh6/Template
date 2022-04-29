@@ -31,11 +31,13 @@
             android:id="@+id/rv_address_province"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:overScrollMode="never"
             android:visibility="visible" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_address_city"
             android:layout_width="match_parent"
+            android:overScrollMode="never"
             android:layout_height="match_parent"
             android:visibility="gone" />
 
@@ -43,6 +45,7 @@
             android:id="@+id/rv_address_area"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:overScrollMode="never"
             android:visibility="gone" />
     </FrameLayout>
 

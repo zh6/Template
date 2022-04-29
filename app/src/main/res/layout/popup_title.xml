@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:text="请选择"
-            style="@style/MainTextStyle"/>
+           style="@style/MainTextStyle"/>
         <ImageView
             android:id="@+id/img_close"
             android:layout_width="wrap_content"

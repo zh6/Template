@@ -23,7 +23,6 @@
             android:text="标题" />
 
         <ImageView
-            android:id="@+id/add"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
@@ -32,7 +31,6 @@
             android:layout_alignParentRight="true"
             android:src="@drawable/nav_button_add" />
         <TextView
-            android:id="@+id/complete"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"

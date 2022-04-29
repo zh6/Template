@@ -2,8 +2,4 @@
 <resources>
     <string name="app_name">Template</string>
     <string name="double_exit">再按一次退出</string>
-    <string name="home1_title">首頁</string>
-    <string name="home2_title">細膩</string>
-    <string name="home3_title">曉曦</string>
-    <string name="home4_title">訂單</string>
 </resources>
