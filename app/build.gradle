@@ -34,7 +34,6 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation files('libs/PaxNeptuneLiteApi_V2.00.02_20170623.jar')
     /*lombok */
     compileOnly "org.projectlombok:lombok:1.18.20"
     annotationProcessor 'org.projectlombok:lombok:1.18.20'

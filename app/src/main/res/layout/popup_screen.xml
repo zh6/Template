@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp"
+    android:layout_height="match_parent"
+    android:background="@drawable/my_view_layout"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="10dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/MainTextStyle"
+            android:text="状态" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:overScrollMode="never" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:paddingHorizontal="10dp">
+
+        <TextView
+            style="@style/MainTextStyle"
+            android:text="日期" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/tv_startDate"
+                style="@style/MainTextStyle"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/my_btn_gray"
+                android:drawableLeft="@drawable/combo_icon_calendar"
+                android:gravity="center"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="7dp"
+                android:text="开始日期"
+                android:textSize="13sp" />
+
+            <View
+                style="@style/LineStyle"
+                android:layout_width="10dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="2dp"
+                android:background="@color/black_9" />
+
+            <TextView
+                android:id="@+id/tv_endDate"
+                style="@style/MainTextStyle"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/my_btn_gray"
+                android:drawableLeft="@drawable/combo_icon_calendar"
+                android:gravity="center"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="7dp"
+                android:text="结束日期"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        style="@style/LineStyle"
+        android:layout_marginTop="30dp" />
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_left"
+            style="@style/MainTextStyle"
+            android:layout_width="0dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/my_btn_gray"
+            android:gravity="center"
+            android:paddingVertical="5dp"
+            android:text="重置" />
+
+        <TextView
+            android:id="@+id/tv_right"
+            style="@style/MainTextStyle"
+            android:layout_width="0dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/my_btn_green"
+            android:gravity="center"
+            android:paddingVertical="5dp"
+            android:text="确定"
+            android:textColor="@color/green" />
+
+    </LinearLayout>
+</LinearLayout>
