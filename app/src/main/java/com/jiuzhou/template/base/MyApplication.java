@@ -17,6 +17,7 @@ import java.util.Stack;
 
 import io.reactivex.plugins.RxJavaPlugins;
 
+
 /**
  * 自定义的Application，做一些初始化配置
  */
