@@ -5,11 +5,13 @@ import com.jiuzhou.template.common.Constants;
 import com.jiuzhou.template.net.interceptor.HeaderInterceptor;
 import com.jiuzhou.template.net.interceptor.LogInterceptor;
 import com.jiuzhou.template.utils.SpUtils;
+
 import java.util.concurrent.TimeUnit;
-import io.reactivex.annotations.Nullable;
+
+import io.reactivex.rxjava3.annotations.Nullable;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitFactory {
@@ -28,7 +30,7 @@ public class RetrofitFactory {
         retrofit = new Retrofit.Builder()
                 .client(httpClient)
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create());
         build = retrofit.baseUrl(SpUtils.SYSTEM.getStringDef(Constants.IP, Constants.API_URL)).build();
     }
 

@@ -21,8 +21,8 @@ import java.net.ConnectException;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 public abstract class BaseObserver<T> implements Observer<T> {
     private String mMsg;
@@ -83,7 +83,6 @@ public abstract class BaseObserver<T> implements Observer<T> {
             onError(e);
         }
     }
-
 
     @Override
     public void onError(Throwable e) {

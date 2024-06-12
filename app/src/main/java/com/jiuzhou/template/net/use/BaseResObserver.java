@@ -20,8 +20,9 @@ import java.net.ConnectException;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.Disposable;
+
 
 /**
  * 封装接口msg错误

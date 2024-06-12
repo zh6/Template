@@ -5,6 +5,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.alibaba.fastjson.JSON;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
@@ -13,7 +17,7 @@ import com.jiuzhou.template.R;
 import com.jiuzhou.template.base.BaseActivity;
 import com.jiuzhou.template.base.MyApplication;
 import com.jiuzhou.template.common.Constants;
-import com.jiuzhou.template.entity.SysModuleEntity;
+import com.jiuzhou.template.entity.UserEntity;
 import com.jiuzhou.template.utils.GlideUtils;
 import com.jiuzhou.template.utils.LiveDataBus;
 import com.jiuzhou.template.utils.SpUtils;
@@ -24,25 +28,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.lifecycle.Observer;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
-import butterknife.OnClick;
-
 public class HomeActivity extends BaseActivity {
-    @BindView(R.id.tv_name)
     TextView tv_name;
-    @BindView(R.id.tv_mobile)
     TextView tv_mobile;
-    @BindView(R.id.tv_total)
     TextView tv_total;
-    @BindView(R.id.img_head)
     ImageView img_head;
-    @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;//列表
-    private BaseQuickAdapter<SysModuleEntity, BaseViewHolder> adapter;//万能适配器
-    private List<SysModuleEntity> list = new ArrayList<>(); //数据源
+    private BaseQuickAdapter<UserEntity, BaseViewHolder> adapter;//万能适配器
+    List<UserEntity> list;
 
     @Override
     protected int layoutId() {
@@ -52,11 +45,15 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void initView() {
         ImmersionBar.with(this).reset().init();
+        tv_name = findViewById(R.id.tv_name);
+        tv_mobile = findViewById(R.id.tv_mobile);
+        tv_total = findViewById(R.id.tv_total);
+        img_head = findViewById(R.id.img_head);
+        mRecyclerView = findViewById(R.id.recyclerview);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        adapter = new BaseQuickAdapter<SysModuleEntity, BaseViewHolder>(R.layout.item_home, list) {
+        adapter = new BaseQuickAdapter<UserEntity, BaseViewHolder>(R.layout.item_home, list) {
             @Override
-            protected void convert(@NotNull BaseViewHolder holder, SysModuleEntity entity) {
-                holder.setText(R.id.tv_name, entity.getName());
+            protected void convert(@NotNull BaseViewHolder holder, UserEntity entity) {
             }
         };
         //绑定适配器
@@ -65,16 +62,13 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        LiveDataBus.get().with("user").observe(this, new Observer<Object>() {
-            @Override
-            public void onChanged(Object o) {
-                tv_name.setText(SpUtils.USER.getString(Constants.NICKNAME));
-                String headUrl = (SpUtils.USER.getString(Constants.FILEPATH));
-                if (!TextUtils.isEmpty(headUrl)) {
-                    GlideUtils.loadCircleImage(HomeActivity.this, headUrl, img_head, 80, 80);
-                } else {
-                    img_head.setImageResource(R.drawable.home_head_default);
-                }
+        LiveDataBus.get().with("user").observe(this, o -> {
+            tv_name.setText(SpUtils.USER.getString(Constants.NICKNAME));
+            String headUrl = (SpUtils.USER.getString(Constants.FILEPATH));
+            if (!TextUtils.isEmpty(headUrl)) {
+                GlideUtils.loadCircleImage(HomeActivity.this, headUrl, img_head, 80, 80);
+            } else {
+                img_head.setImageResource(R.drawable.home_head_default);
             }
         });
         tv_name.setText(SpUtils.USER.getString(Constants.NICKNAME));
@@ -83,7 +77,7 @@ public class HomeActivity extends BaseActivity {
         if (!TextUtils.isEmpty(headUrl)) {
             GlideUtils.loadCircleImage(this, headUrl, img_head, 80, 80);
         }
-        List<SysModuleEntity> sys = JSON.parseArray(SpUtils.USER.getString(Constants.SYS), SysModuleEntity.class);
+        List<UserEntity> sys = JSON.parseArray(SpUtils.USER.getString(Constants.SYS), UserEntity.class);
         if (sys != null) {
             adapter.setList(sys);
         }
@@ -95,12 +89,6 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-    }
-
-
-    @OnClick({R.id.fl_msg, R.id.fl_todolist, R.id.img_setting})
-    public void onClick(View view) {
-
     }
 
     @Override

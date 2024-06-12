@@ -8,17 +8,14 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.jiuzhou.template.utils.ScreenUtils;
-import com.trello.rxlifecycle2.components.support.RxFragment;
+import com.trello.rxlifecycle4.components.support.RxFragment;
 
 import androidx.annotation.Nullable;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * BaseFragment简单封装
  */
 public abstract class BaseFragment extends RxFragment {
-    private Unbinder unbinder;
     private View mRootView;
 
     @Override
@@ -30,7 +27,6 @@ public abstract class BaseFragment extends RxFragment {
             }
         } else {
             mRootView = inflater.inflate(setLayout(), null);
-            unbinder = ButterKnife.bind(this, mRootView);
         }
         return mRootView;
     }
@@ -56,7 +52,6 @@ public abstract class BaseFragment extends RxFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
     }
 
     public void KeyboardOcclusion(View view) {

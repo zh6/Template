@@ -9,7 +9,7 @@ import com.jiuzhou.template.net.use.BaseResponse;
 import java.util.List;
 import java.util.Map;
 
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.Multipart;
@@ -75,7 +75,6 @@ public interface BaseApi {
      */
     @Multipart
     @POST("api/user/fileUpload/file/upload")
-    Observable<UpFileEntity> upFile(@PartMap Map<String, RequestBody> maps,
-                                    @Part MultipartBody.Part file);
+    Observable<UpFileEntity> upFile(@PartMap Map<String, RequestBody> maps, @Part MultipartBody.Part file);
 
 }

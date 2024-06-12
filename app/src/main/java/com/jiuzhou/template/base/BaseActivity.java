@@ -1,6 +1,5 @@
 package com.jiuzhou.template.base;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -9,15 +8,14 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.Nullable;
+
 import com.gyf.immersionbar.ImmersionBar;
 import com.jiuzhou.template.R;
 import com.jiuzhou.template.utils.InputUtils;
 import com.jiuzhou.template.utils.ScreenUtils;
 import com.jiuzhou.template.widget.LoadingDialog;
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
-
-import androidx.annotation.Nullable;
-import butterknife.ButterKnife;
+import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
 
 public abstract class BaseActivity extends RxAppCompatActivity {
     private InputMethodManager manager;  //系统输入法相关
@@ -31,7 +29,6 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         initImmersionBar();
         MyApplication.getAppContext().addActivity(this);
         manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        ButterKnife.bind(this);
         initView();
         initData();
     }
@@ -66,18 +63,6 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         ImmersionBar.with(this).statusBarColor(R.color.white).navigationBarColor(R.color.black).statusBarDarkFont(true).fitsSystemWindows(true).init();
     }
 
-    /**
-     * 隐藏软键盘
-     */
-    public void hideSoftKeyBord() {
-        View v = getCurrentFocus();
-        if (v == null)
-            return;
-        InputMethodManager imm = (InputMethodManager) this
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-    }
-
     //点击空白处消失
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -88,19 +73,6 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         }
         return super.dispatchTouchEvent(ev);
     }
-
-    /**
-     * 管理输入软键盘（如果仍然显示，就将其关掉）
-     */
-    protected void dissmissSoftKeyboard(Activity activity) {
-        try {
-            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * 显示加载动画
      */
@@ -130,7 +102,6 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         return false;
 
     }
-
 
     public void KeyboardOcclusion(View view) {
         View decorView = getWindow().getDecorView();

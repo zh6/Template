@@ -5,6 +5,9 @@ import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.Nullable;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DataSource;
@@ -19,8 +22,6 @@ import com.jiuzhou.template.common.Constants;
 
 import java.io.File;
 
-import androidx.annotation.ColorInt;
-import androidx.annotation.Nullable;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleWithBorderTransformation;
 import jp.wasabeef.glide.transformations.GrayscaleTransformation;

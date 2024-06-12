@@ -15,7 +15,7 @@ import com.tencent.mmkv.MMKV;
 
 import java.util.Stack;
 
-import io.reactivex.plugins.RxJavaPlugins;
+import io.reactivex.rxjava3.plugins.RxJavaPlugins;
 
 
 /**
