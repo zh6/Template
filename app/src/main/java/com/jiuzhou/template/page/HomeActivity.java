@@ -1,11 +1,9 @@
 package com.jiuzhou.template.page;
 
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,7 +23,6 @@ import com.jiuzhou.template.utils.ToastUtils;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends BaseActivity {
@@ -94,7 +91,7 @@ public class HomeActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         if (!isFastDoubleClick()) {
-            ToastUtils.showShort(getString(R.string.double_exit));
+            ToastUtils.toastNormal(this, getString(R.string.double_exit));
         } else {
             //彻底关闭整个APP
             MyApplication.getAppContext().AppExit();

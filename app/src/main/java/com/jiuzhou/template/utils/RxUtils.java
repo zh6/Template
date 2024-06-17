@@ -3,7 +3,6 @@ package com.jiuzhou.template.utils;
 import com.trello.rxlifecycle4.LifecycleProvider;
 import com.trello.rxlifecycle4.android.ActivityEvent;
 import com.trello.rxlifecycle4.android.FragmentEvent;
-
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.schedulers.Schedulers;

@@ -15,6 +15,7 @@ import androidx.core.content.FileProvider;
 
 
 import java.io.File;
+
 public class DeviceUtils {
     /**
      * 获取当前应用的版本号
@@ -93,7 +94,7 @@ public class DeviceUtils {
      */
     public static void installApk(Context context, String fileName) {
         File apkFile = new File(fileName);
-        if (!apkFile.exists()) ToastUtils.showShort("安装文件不存在");
+        if (!apkFile.exists()) ToastUtils.toastNormal(context, "安装文件不存在");
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// 由于没有在Activity环境下启动Activity,设置下面的标签
         if (Build.VERSION.SDK_INT >= 24) { // 判读版本是否在7.0以上

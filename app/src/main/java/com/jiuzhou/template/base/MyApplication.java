@@ -7,7 +7,6 @@ import android.os.Process;
 import com.jiuzhou.template.R;
 import com.jiuzhou.template.utils.LogUtils;
 import com.jiuzhou.template.utils.MultiLanguageUtils;
-import com.jiuzhou.template.utils.ToastUtils;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -36,7 +35,6 @@ public class MyApplication extends Application {
         registerActivityLifecycleCallbacks(MultiLanguageUtils.callbacks);
         //初始化activity栈
         sActivityStack = new Stack<>();
-        ToastUtils.register(this);
         //LeakCanary检测OOM
 //        LeakCanary.install(this);
         //异常捕捉

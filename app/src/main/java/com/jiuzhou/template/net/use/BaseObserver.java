@@ -3,6 +3,7 @@ package com.jiuzhou.template.net.use;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
@@ -25,10 +26,9 @@ import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public abstract class BaseObserver<T> implements Observer<T> {
-    private String mMsg;
-    private LoadingDialog loadingDialog;
-    private Context mContext;
-    private boolean mShowLoading = false;
+    private static final String TAG = BaseObserver.class.getSimpleName();
+
+    // Error Messages
     private static final String CONNECT_ERROR = "网络连接失败,请检查网络";
     private static final String CONNECT_TIMEOUT = "连接超时,请稍后再试";
     private static final String BAD_NETWORK = "服务器异常";
@@ -36,24 +36,22 @@ public abstract class BaseObserver<T> implements Observer<T> {
     private static final String UNKNOWN_ERROR = "未知错误";
     private static final String RESPONSE_RETURN_ERROR = "服务器返回数据失败";
 
-    public BaseObserver() {
-    }
+    private String mMsg;
+    private LoadingDialog loadingDialog;
+    private Context mContext;
+    private boolean mShowLoading = false;
 
-    /**
-     * 如果传入上下文，那么表示您将开启自定义的进度条
-     *
-     * @param context 上下文
-     */
+    public BaseObserver() {}
+
     public BaseObserver(Context context) {
         this.mContext = context;
-        this.mShowLoading = true;
     }
 
-    /**
-     * 如果传入上下文，那么表示您将开启自定义的进度条
-     *
-     * @param context 上下文
-     */
+    public BaseObserver(Context context, boolean mShowLoading) {
+        this.mContext = context;
+        this.mShowLoading = mShowLoading;
+    }
+
     public BaseObserver(Context context, String msg) {
         this.mContext = context;
         this.mShowLoading = true;
@@ -65,132 +63,95 @@ public abstract class BaseObserver<T> implements Observer<T> {
         onRequestStart();
     }
 
-
     @Override
     public void onNext(T response) {
         onRequestEnd();
         try {
             JSONObject json = JSONObject.parseObject(JSON.toJSONString(response));
-            if (json.getIntValue("state") == 97) {
-                SpUtils.USER.removeKey(Constants.TOKEN);
-                Intent intent = new Intent(MyApplication.getAppContext(), LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //关键的一句，将新的activity置为栈顶
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                MyApplication.getAppContext().startActivity(intent);
-            }
+            handleBusinessState(json);
             onSuccess(response);
         } catch (Exception e) {
-            onError(e);
+            handleError(e);
         }
     }
 
     @Override
     public void onError(Throwable e) {
         onRequestEnd();
+        handleError(e);
+    }
+
+    private void handleBusinessState(JSONObject json) {
+        if (json.getIntValue("state") == 97) {
+            SpUtils.USER.removeKey(Constants.TOKEN);
+            Intent intent = new Intent(MyApplication.getAppContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            MyApplication.getAppContext().startActivity(intent);
+        }
+    }
+
+    private void handleError(Throwable e) {
         if (e instanceof retrofit2.HttpException) {
-            //HTTP错误
             onException(ExceptionReason.BAD_NETWORK);
         } else if (e instanceof ConnectException || e instanceof UnknownHostException) {
-            //连接错误
             onException(ExceptionReason.CONNECT_ERROR);
         } else if (e instanceof InterruptedIOException) {
-            //连接超时
             onException(ExceptionReason.CONNECT_TIMEOUT);
         } else if (e instanceof JsonParseException || e instanceof JSONException || e instanceof ParseException) {
-            //解析错误
             onException(ExceptionReason.PARSE_ERROR);
         } else {
-            //其他错误
             onException(ExceptionReason.UNKNOWN_ERROR);
         }
+        Log.e(TAG, "Error occurred: ", e);
     }
 
     private void onException(ExceptionReason reason) {
+        String message;
         switch (reason) {
             case CONNECT_ERROR:
-                ToastUtils.showShort(CONNECT_ERROR);
-                LogUtils.e(CONNECT_ERROR);
+                message = CONNECT_ERROR;
                 break;
-
             case CONNECT_TIMEOUT:
-                ToastUtils.showShort(CONNECT_TIMEOUT);
-                LogUtils.e(CONNECT_TIMEOUT);
+                message = CONNECT_TIMEOUT;
                 break;
-
             case BAD_NETWORK:
-                ToastUtils.showShort(BAD_NETWORK);
-                LogUtils.e(BAD_NETWORK);
+                message = BAD_NETWORK;
                 break;
-
             case PARSE_ERROR:
-                ToastUtils.showShort(PARSE_ERROR);
-                LogUtils.e(PARSE_ERROR);
+                message = PARSE_ERROR;
                 break;
             case UNKNOWN_ERROR:
             default:
-//                ToastUtil.showShort(UNKNOWN_ERROR);
-                LogUtils.e(UNKNOWN_ERROR);
+                message = UNKNOWN_ERROR;
                 break;
         }
+        ToastUtils.toastError(mContext, message);
+        LogUtils.e(message);
     }
 
     @Override
-    public void onComplete() {
+    public void onComplete() {}
 
-    }
-
-    /**
-     * 网络请求成功并返回正确值
-     *
-     * @param response 返回值
-     */
     public abstract void onSuccess(T response);
 
-    /**
-     * 网络请求失败原因
-     */
     public enum ExceptionReason {
-        /**
-         * 解析数据失败
-         */
         PARSE_ERROR,
-        /**
-         * 网络问题
-         */
         BAD_NETWORK,
-        /**
-         * 连接错误
-         */
         CONNECT_ERROR,
-        /**
-         * 连接超时
-         */
         CONNECT_TIMEOUT,
-        /**
-         * 未知错误
-         */
         UNKNOWN_ERROR
     }
 
-    /**
-     * 网络请求开始
-     */
     protected void onRequestStart() {
         if (mShowLoading) {
             showProgressDialog();
         }
     }
 
-    /**
-     * 网络请求结束
-     */
     protected void onRequestEnd() {
         closeProgressDialog();
     }
 
-    /**
-     * 开启Dialog
-     */
     private void showProgressDialog() {
         loadingDialog = new LoadingDialog(mContext);
         if (TextUtils.isEmpty(mMsg)) {
@@ -201,13 +162,9 @@ public abstract class BaseObserver<T> implements Observer<T> {
         }
     }
 
-    /**
-     * 关闭Dialog
-     */
     private void closeProgressDialog() {
         if (loadingDialog != null) {
             loadingDialog.dismiss();
         }
     }
-
 }

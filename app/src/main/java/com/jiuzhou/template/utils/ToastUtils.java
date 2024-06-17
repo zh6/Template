@@ -1,81 +1,64 @@
-/*
- * Copyright (C) 2015 Drakeet <drakeet.me@gmail.com>
- *
- * This file is part of Meizhi
- *
- * Meizhi is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Meizhi is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Meizhi.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 package com.jiuzhou.template.utils;
+
 
 import android.content.Context;
 import android.widget.Toast;
 
-/**
- * toast工具类，避免重复提醒
- */
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+
+import es.dmoral.toasty.Toasty;
+
 public class ToastUtils {
-    public static Context sContext;
 
-    private ToastUtils() {
+    /**
+     * 弹出成功消息
+     *
+     * @param text       需要显示的消息
+     * @param isShowIcon 是否需要显示图标 默认显示
+     */
+    public static void toastSuccess(Context context, @NonNull String text, Boolean isShowIcon) {
+        Toasty.success(context, text, Toast.LENGTH_SHORT, isShowIcon).show();
     }
 
-    public static void register(Context context) {
-        sContext = context.getApplicationContext();
+    public static void toastSuccess(Context context, @NonNull String text) {
+        Toasty.success(context, text, Toast.LENGTH_SHORT,false).show();
     }
 
-    private static void check() {
-        if (sContext == null) {
-            throw new NullPointerException(
-                    "Must initial call ToastUtils.register(Context context) in your " +
-                            "<? " +
-                            "extends Application class>");
-        }
+    /**
+     * 弹出错误消息
+     *
+     * @param text       需要显示的消息
+     * @param isShowIcon 是否需要显示图标 默认显示
+     */
+    public static void toastError(Context context, @NonNull String text, Boolean isShowIcon) {
+        Toasty.error(context, text, Toast.LENGTH_LONG, isShowIcon).show();
     }
 
-
-    public static void showShort(int resId) {
-        check();
-        Toast.makeText(sContext, resId, Toast.LENGTH_SHORT).show();
+    public static void toastError(Context context, @NonNull String text) {
+        Toasty.error(context, text, Toast.LENGTH_LONG,false).show();
     }
 
-
-    public static void showShort(String message) {
-        check();
-        Toast.makeText(sContext, message, Toast.LENGTH_SHORT).show();
+    /**
+     * 弹出一般消息
+     *
+     * @param text 需要显示的消息
+     */
+    public static void toastNormal(Context context, @NonNull String text) {
+        Toasty.normal(context, text, Toast.LENGTH_SHORT).show();
     }
 
-
-    public static void showLong(int resId) {
-        check();
-        Toast.makeText(sContext, resId, Toast.LENGTH_LONG).show();
+    /**
+     * 弹出警告消息
+     *
+     * @param text       需要显示的消息
+     * @param isShowIcon 是否需要显示图标 默认显示
+     */
+    public static void toastWarn(Context context, @NonNull String text, Boolean isShowIcon) {
+        Toasty.warning(context, text, Toast.LENGTH_SHORT, isShowIcon).show();
     }
 
-
-    public static void showLong(String message) {
-        check();
-        Toast.makeText(sContext, message, Toast.LENGTH_LONG).show();
-    }
-
-    public static void showLongX2(String message) {
-        showLong(message);
-        showLong(message);
-    }
-
-
-    public static void showLongX2(int resId) {
-        showLong(resId);
-        showLong(resId);
+    public static void toastWarn(Context context, @NonNull String text) {
+        Toasty.warning(context, text, Toast.LENGTH_SHORT,false).show();
     }
 }

@@ -30,10 +30,9 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * @param <T>
  */
 public abstract class BaseResObserver<T extends BaseResponse> implements Observer<T> {
-    private String mMsg;
-    private LoadingDialog loadingDialog;
-    private Context mContext;
-    private boolean mShowLoading = false;
+    private static final String TAG = BaseResObserver.class.getSimpleName();
+
+    // Error Messages
     private static final String CONNECT_ERROR = "网络连接失败,请检查网络";
     private static final String CONNECT_TIMEOUT = "连接超时,请稍后再试";
     private static final String BAD_NETWORK = "服务器异常";
@@ -41,24 +40,20 @@ public abstract class BaseResObserver<T extends BaseResponse> implements Observe
     private static final String UNKNOWN_ERROR = "未知错误";
     private static final String RESPONSE_RETURN_ERROR = "服务器返回数据失败";
 
-    public BaseResObserver() {
-    }
+    private String mMsg;
+    private LoadingDialog loadingDialog;
+    private Context mContext;
+    private boolean mShowLoading = false;
 
-    /**
-     * 如果传入上下文，那么表示您将开启自定义的进度条
-     *
-     * @param context 上下文
-     */
     public BaseResObserver(Context context) {
         this.mContext = context;
-        this.mShowLoading = true;
     }
 
-    /**
-     * 如果传入上下文，那么表示您将开启自定义的进度条
-     *
-     * @param context 上下文
-     */
+    public BaseResObserver(Context context, boolean showLoading) {
+        this.mContext = context;
+        this.mShowLoading = showLoading;
+    }
+
     public BaseResObserver(Context context, String msg) {
         this.mContext = context;
         this.mShowLoading = true;
@@ -76,74 +71,80 @@ public abstract class BaseResObserver<T extends BaseResponse> implements Observe
         try {
             if (response.getState() == 0) {
                 onSuccess(response);
-            } else if (response.getState() == 97) {
-                SpUtils.USER.removeKey(Constants.TOKEN);
-                Intent intent = new Intent(MyApplication.getAppContext(), LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //关键的一句，将新的activity置为栈顶
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                MyApplication.getAppContext().startActivity(intent);
             } else {
-                onFailing(response);
+                handleBusinessState(response);
             }
         } catch (Exception e) {
             onError(e);
         }
     }
 
-
     @Override
     public void onError(Throwable e) {
         onRequestEnd();
-        if (e instanceof retrofit2.HttpException) {
-            //HTTP错误
-            onException(ExceptionReason.BAD_NETWORK);
-        } else if (e instanceof ConnectException || e instanceof UnknownHostException) {
-            //连接错误
-            onException(ExceptionReason.CONNECT_ERROR);
-        } else if (e instanceof InterruptedIOException) {
-            //连接超时
-            onException(ExceptionReason.CONNECT_TIMEOUT);
-        } else if (e instanceof JsonParseException || e instanceof JSONException || e instanceof ParseException) {
-            //解析错误
-            onException(ExceptionReason.PARSE_ERROR);
+        handleError(e, null);
+    }
+
+    private void handleBusinessState(T response) {
+        if (response.getState() == 97) {
+            SpUtils.USER.removeKey(Constants.TOKEN);
+            Intent intent = new Intent(MyApplication.getAppContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            MyApplication.getAppContext().startActivity(intent);
         } else {
-            //其他错误
-            onException(ExceptionReason.UNKNOWN_ERROR);
+            handleError(null, response.getMsg());
+        }
+    }
+
+    private void handleError(Throwable e, String errorMsg) {
+        if (e != null) {
+            if (e instanceof retrofit2.HttpException) {
+                onException(ExceptionReason.BAD_NETWORK);
+            } else if (e instanceof ConnectException || e instanceof UnknownHostException) {
+                onException(ExceptionReason.CONNECT_ERROR);
+            } else if (e instanceof InterruptedIOException) {
+                onException(ExceptionReason.CONNECT_TIMEOUT);
+            } else if (e instanceof JsonParseException || e instanceof JSONException || e instanceof ParseException) {
+                onException(ExceptionReason.PARSE_ERROR);
+            } else {
+                onException(ExceptionReason.UNKNOWN_ERROR);
+            }
+        } else {
+            if (TextUtils.isEmpty(errorMsg)) {
+                errorMsg = RESPONSE_RETURN_ERROR;
+            }
+            ToastUtils.toastNormal(mContext, errorMsg);
+            LogUtils.e(errorMsg);
         }
     }
 
     private void onException(ExceptionReason reason) {
+        String message;
         switch (reason) {
             case CONNECT_ERROR:
-                ToastUtils.showShort(CONNECT_ERROR);
-                LogUtils.e(CONNECT_ERROR);
+                message = CONNECT_ERROR;
                 break;
-
             case CONNECT_TIMEOUT:
-                ToastUtils.showShort(CONNECT_TIMEOUT);
-                LogUtils.e(CONNECT_TIMEOUT);
+                message = CONNECT_TIMEOUT;
                 break;
-
             case BAD_NETWORK:
-                ToastUtils.showShort(BAD_NETWORK);
-                LogUtils.e(BAD_NETWORK);
+                message = BAD_NETWORK;
                 break;
-
             case PARSE_ERROR:
-                ToastUtils.showShort(PARSE_ERROR);
-                LogUtils.e(PARSE_ERROR);
+                message = PARSE_ERROR;
                 break;
             case UNKNOWN_ERROR:
             default:
-//                ToastUtil.showShort(UNKNOWN_ERROR);
-                LogUtils.e(UNKNOWN_ERROR);
+                message = UNKNOWN_ERROR;
                 break;
         }
+        ToastUtils.toastError(mContext, message);
+        LogUtils.e(message);
     }
 
     @Override
     public void onComplete() {
-        //请求结束
+        // 请求结束
     }
 
     /**
@@ -154,44 +155,10 @@ public abstract class BaseResObserver<T extends BaseResponse> implements Observe
     public abstract void onSuccess(T response);
 
     /**
-     * 网络请求成功但是返回值是错误的
-     *
-     * @param response 返回值
-     */
-    public void onFailing(T response) {
-        String message = response.getMsg();
-        if (TextUtils.isEmpty(message)) {
-            ToastUtils.showShort(RESPONSE_RETURN_ERROR);
-        } else {
-            ToastUtils.showShort(message);
-        }
-    }
-
-
-    /**
      * 网络请求失败原因
      */
     public enum ExceptionReason {
-        /**
-         * 解析数据失败
-         */
-        PARSE_ERROR,
-        /**
-         * 网络问题
-         */
-        BAD_NETWORK,
-        /**
-         * 连接错误
-         */
-        CONNECT_ERROR,
-        /**
-         * 连接超时
-         */
-        CONNECT_TIMEOUT,
-        /**
-         * 未知错误
-         */
-        UNKNOWN_ERROR
+        PARSE_ERROR, BAD_NETWORK, CONNECT_ERROR, CONNECT_TIMEOUT, UNKNOWN_ERROR
     }
 
     /**
@@ -231,5 +198,4 @@ public abstract class BaseResObserver<T extends BaseResponse> implements Observe
             loadingDialog.dismiss();
         }
     }
-
 }

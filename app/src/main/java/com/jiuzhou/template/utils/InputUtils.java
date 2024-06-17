@@ -5,8 +5,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.orhanobut.logger.Logger;
-
 import java.lang.reflect.Field;
 
 /**
@@ -75,17 +73,17 @@ public class InputUtils {
                 }
                 obj_get = f.get(imm);
 
-                if (obj_get != null && obj_get instanceof View) {
+                if (obj_get instanceof View) {
                     View v_get = (View) obj_get;
                     if (v_get.getContext() == context) {
                         f.set(imm, null);
                     } else {
-                        Logger.d("fixInputMethodManagerLeak break, context is not suitable, get_context=" + v_get.getContext() + " dest_context=" + context);
+                        LogUtils.d("fixInputMethodManagerLeak break, context is not suitable, get_context=" + v_get.getContext() + " dest_context=" + context);
                         break;
                     }
                 }
             } catch (Throwable t) {
-                Logger.e(t, "fixInputMethodManagerLeak exception occurred for field: " + param);
+                LogUtils.e("fixInputMethodManagerLeak exception occurred for field: " + param);
             }
         }
     }

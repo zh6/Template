@@ -18,8 +18,9 @@ import com.jiuzhou.template.widget.LoadingDialog;
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
 
 public abstract class BaseActivity extends RxAppCompatActivity {
-    private InputMethodManager manager;  //系统输入法相关
-    public LoadingDialog loadingView;
+
+    private InputMethodManager manager;  // 系统输入法
+    protected LoadingDialog loadingView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,12 +34,13 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         initData();
     }
 
+    // 返回布局ID
     protected abstract int layoutId();
 
-    //初始化控件
+    // 初始化控件
     protected abstract void initView();
 
-    //初始化数据
+    // 初始化数据
     protected abstract void initData();
 
     @Override
@@ -50,29 +52,36 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         MyApplication.getAppContext().finishActivity(this);
-        InputUtils.fixInputMethodManagerLeak(this);
+//        InputUtils.fixInputMethodManagerLeak(this);
         closeDialog();
     }
 
     /**
      * 初始化沉浸式
-     * Init immersion bar.
      */
     protected void initImmersionBar() {
-        //设置共同沉浸式样式
-        ImmersionBar.with(this).statusBarColor(R.color.white).navigationBarColor(R.color.black).statusBarDarkFont(true).fitsSystemWindows(true).init();
+        ImmersionBar.with(this)
+                .statusBarColor(R.color.white)
+                .navigationBarColor(R.color.black)
+                .statusBarDarkFont(true)
+                .fitsSystemWindows(true)
+                .init();
     }
 
-    //点击空白处消失
+    // 处理点击空白区域隐藏软键盘的逻辑
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            if (getCurrentFocus() != null && getCurrentFocus().getWindowToken() != null) {
-                manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            // 获取当前焦点
+            View view = getCurrentFocus();
+            if (view != null && manager != null) {
+                // 隐藏软键盘
+                manager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
         }
         return super.dispatchTouchEvent(ev);
     }
+
     /**
      * 显示加载动画
      */
@@ -93,6 +102,9 @@ public abstract class BaseActivity extends RxAppCompatActivity {
 
     private static long lastClickTime;
 
+    /**
+     * 防止快速双击
+     */
     public static boolean isFastDoubleClick() {
         long time = System.currentTimeMillis();
         if (time - lastClickTime < 1000) {
@@ -100,31 +112,32 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         }
         lastClickTime = time;
         return false;
-
     }
 
+    /**
+     * 处理软键盘遮挡
+     */
     public void KeyboardOcclusion(View view) {
         View decorView = getWindow().getDecorView();
         decorView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
             Rect rect = new Rect();
-            //获取窗体的可视区域
+            // 获取窗体的可视区域
             decorView.getWindowVisibleDisplayFrame(rect);
-            //获取不可视区域高度，
-            //在键盘没有弹起时，main.getRootView().getHeight()调节度应该和rect.bottom高度一样
+            // 计算不可视区域高度
             int mainInvisibleHeight = decorView.getRootView().getHeight() - rect.bottom;
-            int screenHeight = decorView.getRootView().getHeight();//屏幕高度
-            //不可见区域大于屏幕本身高度的1/4
+            int screenHeight = decorView.getRootView().getHeight();
+            // 不可见区域大于屏幕高度的1/4时，即键盘弹出
             if (mainInvisibleHeight > screenHeight / 4) {
-                if (view.getHeight() != 0) {//因为onGlobalLayout方法会频繁回调，这里要判断下，不重复设置
-                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                            0);
+                if (view.getHeight() != 0) {
+                    // 设置view的高度为0
+                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 0);
                     params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                     view.setLayoutParams(params);
                 }
             } else {
-                if (view.getHeight() == 0) {//因为onGlobalLayout方法会频繁回调，这里要判断下，不重复设置
-                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                            ScreenUtils.dip2px(this, 60));
+                if (view.getHeight() == 0) {
+                    // 恢复view的高度
+                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, ScreenUtils.dip2px(this, 60));
                     params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                     view.setLayoutParams(params);
                 }

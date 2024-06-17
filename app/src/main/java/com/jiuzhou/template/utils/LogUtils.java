@@ -1,8 +1,10 @@
 package com.jiuzhou.template.utils;
+
 import android.util.Log;
 
-import com.jiuzhou.template.BuildConfig;
 import com.jiuzhou.template.base.MyApplication;
+import com.jiuzhou.template.common.Constants;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -13,13 +15,13 @@ import java.io.IOException;
  * 使用此Log类将会把信息打印在日志文件和LogCat中
  */
 public class LogUtils {
-    private static boolean isDebug = BuildConfig.DEBUG;
+    private static boolean isDebug = Constants.DEBUG;
     private static final String PATH = MyApplication.getAppContext().getCacheDir().toString();
     private static final String PLOG_FILE_NAME = "log.txt";
     /**
      * 是否写入日志文件
      */
-    public static final boolean PLOG_WRITE_TO_FILE = true;
+    public static final boolean PLOG_WRITE_TO_FILE = false;
 
     /**
      * 错误信息
@@ -92,13 +94,13 @@ public class LogUtils {
         isExist(PATH);
         //isDel();
         String needWriteMessage = "\r\n"
-            + DateUtils.currentDateTime()
-            + "\r\n"
-            + mylogtype
-            + "    "
-            + tag
-            + "\r\n"
-            + msg;
+                + DateUtils.currentDateTime()
+                + "\r\n"
+                + mylogtype
+                + "    "
+                + tag
+                + "\r\n"
+                + msg;
         File file = new File(PATH, PLOG_FILE_NAME);
         try {
             FileWriter filerWriter = new FileWriter(file, true);
